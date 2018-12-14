@@ -1,5 +1,4 @@
 torch
 torchvision
 matplotlib
-python-chess
-
+python-chess==0.23.10
