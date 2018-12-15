@@ -1,25 +1,21 @@
 #!/home/alexeyv/workspace/umka/venv/bin/python
 
-import chess
+import os
 import sys
 
-import datetime
+import chess
 from chess.uci import Engine
 
-from coach.trainer import Coach
-from main import UmkaEvaluator
-from minimax import MiniMax
-from model.model import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE
-
-MODEL = UmkaNeuralNet(
-    input_size=INPUT_SIZE,
-    hidden_size=HIDDEN_SIZE,
-    output_size=OUTPUT_SIZE)
-
-DEPTH = 3
+from settings import MODELS_DIR, DEPTH
+from core.minimax import MiniMax
+from core.umka import Umka
 
 
 class UmkaEngine(Engine):
+
+    def __init__(self):
+        self.board = None
+        self.path = os.path.join(MODELS_DIR, "model.pth.tar")
 
     def move(self, m):
         self.board.push(m)
@@ -27,15 +23,20 @@ class UmkaEngine(Engine):
 
     def on_line_received(self, l):
         # super(UmkaEngine, self).on_line_received(buf)
+
         if l == 'xboard':
-            print('feature myname="Umka" setboard=1 done=1')
+            print('feature myname="Umka" setboard=1 done=1 sigint=0 sigterm=0')
+
         elif l == 'quit':
             sys.exit(0)
+
         elif l == 'new':
-            self.coach = Coach(MODEL)
-            self.evaluator = UmkaEvaluator(self.coach.get_model())
-            self.brain = MiniMax(self.evaluator)
             self.board = chess.Board()
+
+            self.umka = Umka(
+                self.path, training_enabled=False)
+
+            self.brain = MiniMax(self.umka)
 
         elif l == 'uci':
             print("id name Umka")
@@ -51,21 +52,17 @@ class UmkaEngine(Engine):
                 "option name BlunderPercent type spin default 0 min 0 max 1024")
             print("uciok")
 
-        elif l.startswith('go') or l == 'force':
-            if not self.board:
-                self.board = chess.Board()
+        elif l.startswith('go'):
             m = self.brain.run(self.board, depth=DEPTH)
             self.move(m)
 
         else:
-            if not self.board:
-                self.board = chess.Board()
             try:
                 self.board.push_uci(l)
                 m = self.brain.run(self.board, depth=DEPTH)
                 self.move(m)
             except:
-                pass
+                print("Command:", sys.exc_info())
 
 
 if __name__ == "__main__":
@@ -74,11 +71,13 @@ if __name__ == "__main__":
 
     while True:
         l = ''
+        print(1)
         try:
             l = input()
             umka.on_line_received(l)
         except KeyboardInterrupt:
+            print("Input 1: %s %s" % (sys.exc_info(),l))
             try:
                 sys.stdin.flush()
             except:
-                pass
+                print("Input 2:", sys.exc_info())
