@@ -22,7 +22,8 @@ class UmkaNeuralNet(nn.Module):
         self.layer1 = nn.Linear(input_size, hidden_size)
         self.layer2 = nn.Linear(hidden_size, hidden_size)
         self.layer3 = nn.Linear(hidden_size, hidden_size)
-        self.layer4 = nn.Linear(hidden_size, output_size)
+        self.layer4 = nn.Linear(hidden_size, hidden_size)
+        self.layer5 = nn.Linear(hidden_size, output_size)
         self.relu = nn.ReLU(LEARING_RATE)
 
     def forward(self, x):
@@ -33,4 +34,6 @@ class UmkaNeuralNet(nn.Module):
         output = self.layer3(output)
         output = self.relu(output)
         output = self.layer4(output)
+        output = self.relu(output)
+        output = self.layer5(output)
         return output

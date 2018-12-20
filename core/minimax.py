@@ -1,9 +1,12 @@
+import time
+
 
 class MiniMax:
     def __init__(self, umka):
         self.umka = umka
 
     def min_play(self, board, depth, alpha, beta):
+        self.nodes += 1
         if board.is_game_over() or depth <= 0:
             return self.umka.evaluate(board)
 
@@ -18,6 +21,7 @@ class MiniMax:
         return value
 
     def max_play(self, board, depth, alpha, beta):
+        self.nodes += 1
         if board.is_game_over() or depth <= 0:
             return self.umka.evaluate(board)
 
@@ -29,10 +33,11 @@ class MiniMax:
             if value >= beta:
                 return value
             alpha = max(alpha, value)
-
         return value
 
     def run(self, board, depth):
+        self.nodes = 0
+        self.st = time.time()
         best_val = float('-inf')
         beta = float('inf')
         best_move = None
@@ -40,8 +45,8 @@ class MiniMax:
             board.push(move)
             value = self.min_play(board, depth - 1, best_val, beta)
             board.pop()
-            if value > best_val:
+            if value >= best_val:
                 best_val = value
                 best_move = move
+        print(self.nodes, self.nodes/(time.time() - self.st))
         return best_move
-

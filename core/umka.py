@@ -1,14 +1,16 @@
 import datetime
 import os
 import shutil
+import sys
 from random import randint
-
+import matplotlib.pyplot as plt
 import torch
 
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel, TrainingEnablingOnModel
 from core.utils import board_tensor, show_board
 
+plt.show()
 
 class Umka:
     def __init__(self, path, training_enabled):
@@ -57,10 +59,11 @@ class Umka:
         shutil.copy(self.path, checkpoint_name)
 
     def __save_model(self):
-        torch.save({
-            'state_dict': self.model.state_dict(),
-            'optimizer': self.optimizer.state_dict(),
-        }, self.path)
+        with open(self.path, "wb") as f:
+            torch.save({
+                'state_dict': self.model.state_dict(),
+                'optimizer': self.optimizer.state_dict(),
+            }, f)
         print("saving cehckpoint:", self.path)
 
     def train(self, samples, labels):
@@ -82,14 +85,15 @@ class Umka:
             self.optimizer.zero_grad()
             delta.backward()
             self.optimizer.step()
-            print("%.6s,\t%.6s\tLoss: %.6s" % (
-                current[0].item(), labels[0].item(), delta.item()))
 
-            if randint(0, 1000) == 999:
-                self.model.save_model("model/model.pth.tar")
+            print("%.6s,\t%.6s\tLoss: %.6s" % (
+                current[0].item(), labels[0], delta.item()))
+
+            if randint(0, 100) == 99:
+                self.__save_model()
                 print("----------")
         except:
-            pass
+            print(sys.exc_info())
 
     def evaluate(self, board):
         if self.training_enabled:
@@ -99,4 +103,9 @@ class Umka:
         input = torch.FloatTensor(sample)
         evaluation = self.model(input)
         score = sum(sample) / 10 + evaluation.item()
+        if board.is_checkmate():
+            score = 100
+        if board.turn:
+            score = -score
         return score
+

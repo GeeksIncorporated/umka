@@ -1,4 +1,5 @@
 import csv
+
 import chess
 from chess.pgn import read_game
 
@@ -6,16 +7,17 @@ pieces_ascii = "KQRBNPkqrbnp"
 pieces_unicode = "♚♛♜♝♞♟♔♕♖♗♘♙"
 translation_rules = str.maketrans(pieces_ascii, pieces_unicode)
 
-pieaces = {
+PIECES = {
     ".": 0,
-    "P": 1, "N": 3, "B": 3.5, "R": 5, "Q": 9, "K": 10,
-    "p": -1, "n": -3, "b": -3.5, "r": -5, "q": -9, "k": -10
+    "P": 1, "N": 3, "B": 3.5, "R": 5, "Q": 9, "K": 0,
+    "p": -1, "n": -3, "b": -3.5, "r": -5, "q": -9, "k": 0
 }
 
 
 def show_board(board):
+    return
     print(str(board).translate(translation_rules)[::-1])
-    print()
+    print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
 
 
 def board_tensor(board):
@@ -25,7 +27,7 @@ def board_tensor(board):
             continue
         elif c == ' ':
             continue
-        res.append(pieaces[c] / 10)
+        res.append(PIECES[c] / 10)
     return res
 
 
@@ -67,18 +69,18 @@ def annotated_sample_generator():
     [0.24, 0.18, ..]
     """
     pgn = open("data/pgn/games.pgn")
+    game_labels = load_labels()
     while True:
         try:
             game = read_game(pgn)
             if not game:
                 break
             event = game.headers["Event"]
-            game_labels = load_labels()
             labels = game_labels[event]
             labels = labels.split(' NA')[0]
             labels = list(
                 map(lambda x: float(x) / 1000, labels.split(' ')[::2]))
             samples = sample_game(game)
-            yield samples, labels
+            yield samples[:len(labels)], labels
         except:
             pass
