@@ -38,7 +38,7 @@ class Umka:
     def __load_model(self):
         """
         :type path: string specifying path to the tar model file
-        for example "model/model.pth.tar"
+        for example "models/model.pth.tar"
         :return: Umka model and optimizer
         """
         if os.path.exists(self.path):
@@ -88,7 +88,7 @@ class Umka:
             print("%.6s,\t%.6s\tLoss: %.6s" % (
                 current[0].item(), labels[0], delta.item()))
 
-            if randint(0, 100) == 99:
+            if randint(0, 1000) == 99:
                 self.__save_model()
                 print("----------")
         except:
