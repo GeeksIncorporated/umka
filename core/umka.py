@@ -58,7 +58,7 @@ class Umka:
         shutil.copy(self.path, checkpoint_name)
 
     def __save_model(self):
-        with open(self.path, "wb+") as f:
+        with open(self.path, "wb") as f:
             torch.save({
                 'state_dict': self.model.state_dict(),
                 'optimizer': self.optimizer.state_dict(),
