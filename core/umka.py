@@ -9,6 +9,7 @@ import torch
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel, TrainingEnablingOnModel
 from core.utils import board_tensor, show_board
+from settings import DEVICE
 
 plt.show()
 
@@ -19,7 +20,7 @@ class Umka:
         """
         self.path = path
         self.training_enabled = training_enabled
-        self.model = UmkaNeuralNet(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+        self.model = UmkaNeuralNet(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE).to(DEVICE)
         self.optimizer = torch.optim.SGD(
             self.model.parameters(),
             lr=LEARING_RATE,
@@ -78,8 +79,8 @@ class Umka:
             # plt.hist((labels), bins=len(labels)); plt.show()
             # input = torch.from_numpy(np.array(samples[:len(labels)]))
 
-            current = self.model(torch.FloatTensor(samples)).squeeze()
-            expected = torch.FloatTensor(labels)
+            current = self.model(torch.FloatTensor(samples).to(DEVICE)).squeeze()
+            expected = torch.FloatTensor(labels).to(DEVICE)
             loss = torch.nn.MSELoss()
             delta = loss(current, expected)
             self.optimizer.zero_grad()
@@ -100,7 +101,7 @@ class Umka:
             raise TrainingEnablingOnModel()
         show_board(board)
         sample = board_tensor(board=board)
-        input = torch.FloatTensor(sample)
+        input = torch.FloatTensor(sample).to(DEVICE)
         evaluation = self.model(input)
         score = sum(sample) / 10 + evaluation.item()
         if board.is_checkmate():

@@ -1,5 +1,4 @@
 import csv
-
 import chess
 from chess.pgn import read_game
 
