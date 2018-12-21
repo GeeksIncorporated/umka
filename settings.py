@@ -9,11 +9,11 @@ DEPTH = 3
 
 if torch.cuda.is_available():
     DEVICE = torch.device('cuda')
-    print("Running on", torch.cuda.get_device_name(DEVICE))
-    print("Capabilities", torch.cuda.get_device_capability(DEVICE))
-    print("Properties", torch.cuda.get_device_properties(DEVICE))
-    print("Max mem allocated", torch.cuda.max_memory_allocated(DEVICE))
-    print("Mac mem cached", torch.cuda.max_memory_cached(DEVICE))
+    print("Running on", torch.cuda.get_device_name(0))
+    print("Capabilities", torch.cuda.get_device_capability(0))
+    print("Properties", torch.cuda.get_device_properties(0))
+    print("Max mem allocated", torch.cuda.max_memory_allocated(0))
+    print("Mac mem cached", torch.cuda.max_memory_cached(0))
 
 else:
     DEVICE = torch.device('cpu')
