@@ -3,7 +3,6 @@ import os
 import shutil
 import sys
 from random import randint
-import matplotlib.pyplot as plt
 import torch
 
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
@@ -11,7 +10,6 @@ from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
 from core.utils import board_tensor, show_board
 from settings import DEVICE
 
-plt.show()
 
 class Umka:
     def __init__(self, path, training_enabled):
