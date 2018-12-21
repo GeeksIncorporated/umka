@@ -1,5 +1,4 @@
 import sys
-import torch
 from core.umka import Umka
 from core.utils import annotated_sample_generator
 from settings import PATH_TO_MODEL
