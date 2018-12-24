@@ -1,5 +1,9 @@
 import csv
+import sys
+import time
+
 import chess
+import torch
 from chess.pgn import read_game
 
 pieces_ascii = "KQRBNPkqrbnp"
@@ -12,12 +16,15 @@ PIECES = {
     "p": -1, "n": -3, "b": -3.5, "r": -5, "q": -9, "k": 0
 }
 
+PIECES_TENSORS = {
+    ".": torch.Tensor([0,])
+}
 
-def show_board(board):
-    return
-    print(str(board).translate(translation_rules)[::-1])
+def show_board(board, material_score, position_score):
+    print(str(board).translate(translation_rules))
+    print(material_score, position_score)
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
-
+    sys.stdout.flush()
 
 def board_tensor(board):
     res = []

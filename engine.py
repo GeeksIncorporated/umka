@@ -7,6 +7,7 @@ import sys
 import chess
 from chess.uci import Engine
 
+from core.minimax_optimized import MiniMaxOpt
 from settings import MODELS_DIR, DEPTH
 from core.minimax import MiniMax
 from core.umka import Umka
@@ -23,23 +24,24 @@ class UmkaEngine(Engine):
 
         if l == 'xboard':
             print('feature myname="Umka" setboard=1 done=1 sigint=0 sigterm=0')
+            print('done')
 
         elif l == 'quit':
             sys.exit(0)
 
         elif l == 'new':
             self.board = chess.Board()
-
             self.umka = Umka(
                 self.path, training_enabled=False)
-
-            self.brain = MiniMax(self.umka)
+            self.brain = MiniMaxOpt(self.umka)
 
         elif l == 'white':
-            self.board.turn = True
+            m = self.make_move()
+            self.board.push(m)
+            print("move %s" % m)
 
         elif l == 'black':
-            self.board.turn = False
+            pass
 
         elif l.startswith('time'):
             pass
@@ -52,7 +54,7 @@ class UmkaEngine(Engine):
 
         elif l == 'uci':
             print("id name Umka")
-            print("id author Martin C. Doege")
+            print("id author GeeksIncorporated")
             print("option name maxplies type spin default 1 min 0 max 1024")
             print("option name qplies type spin default 7 min 0 max 1024")
             print("option name pstab type spin default 0 min 0 max 1024")
@@ -75,25 +77,33 @@ class UmkaEngine(Engine):
             pass
 
         elif l.startswith('go'):
-            m = self.brain.run(self.board, depth=DEPTH)
-            self.board.push(m)
-            print("move %s" % m)
+            pass
 
         else:
             try:
                 self.board.push_uci(l)
-                m = self.brain.run(self.board, depth=DEPTH)
+                m = self.make_move()
                 self.board.push(m)
                 print("move %s" % m)
             except:
-                # print("Command:", sys.exc_info())
+                print("Command:", sys.exc_info())
+                print(self.board)
                 pass
 
-def signal_handler(sig, frame):
+    def make_move(self):
+        m = self.brain.umka.get_move_from_opennings(self.board)
+        if not m:
+            m = self.brain.run(self.board, DEPTH, self.board.turn)
+        return m
+
+
+def signal_handler(*args, **kwargs):
     print('You pressed Ctrl+C!')
 
-
 signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIG_IGN, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
 
 if __name__ == "__main__":
     umka = UmkaEngine()
@@ -112,3 +122,4 @@ if __name__ == "__main__":
             except:
                 print("Input 2:", sys.exc_info())
                 pass
+        sys.stdout.flush()

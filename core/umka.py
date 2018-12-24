@@ -1,14 +1,16 @@
 import datetime
 import os
+import random
 import shutil
 import sys
 from random import randint
 import torch
+from chess.polyglot import open_reader
 
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel, TrainingEnablingOnModel
 from core.utils import board_tensor, show_board
-from settings import DEVICE
+from settings import DEVICE, ENABLE_OPENING_BOOK
 
 
 class Umka:
@@ -94,17 +96,27 @@ class Umka:
         except:
             print(sys.exc_info())
 
+    def get_move_from_opennings(self, board):
+        if not ENABLE_OPENING_BOOK:
+            return
+        with open_reader(
+                "data/opennings/bookfish.bin") as reader:
+            try:
+                entry = reader.choice(board)
+                print(entry.move(), entry.weight, entry.learn)
+                return entry.move()
+            except:
+                return None
+
     def evaluate(self, board):
-        if self.training_enabled:
-            raise TrainingEnablingOnModel()
-        show_board(board)
         sample = board_tensor(board=board)
         input = torch.FloatTensor(sample).to(DEVICE)
         evaluation = self.model(input)
-        score = sum(sample) / 10 + evaluation.item()
+        material_score = 10 * sum(sample)
+        position_score = evaluation.item()
+        score = material_score + position_score
+        show_board(board, material_score, position_score)
         if board.is_checkmate():
-            score = 100
-        if board.turn:
-            score = -score
+            score = -100 if board.turn else 100
         return score
 
