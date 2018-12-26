@@ -1,6 +1,5 @@
 import datetime
 import os
-import random
 import shutil
 import sys
 from random import randint
@@ -8,7 +7,7 @@ import torch
 from chess.polyglot import open_reader
 
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
-    LEARING_RATE, TrainingDisabledOnModel, TrainingEnablingOnModel
+    LEARING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board
 from settings import DEVICE, ENABLE_OPENING_BOOK
 

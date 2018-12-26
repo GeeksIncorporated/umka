@@ -1,5 +1,4 @@
 import os
-
 import torch
 
 PROJECT_ROOT_DIR = os.path.dirname(__file__)

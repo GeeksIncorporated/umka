@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-INPUT_SIZE = 64
+INPUT_SIZE = 64 * 12
 HIDDEN_SIZE = 2048
 OUTPUT_SIZE = 1
 LEARING_RATE = 0.001

@@ -1,6 +1,5 @@
 import sys
 import time
-
 from chess.polyglot import zobrist_hash
 
 

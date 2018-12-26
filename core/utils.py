@@ -17,14 +17,28 @@ PIECES = {
 }
 
 PIECES_TENSORS = {
-    ".": torch.Tensor([0,])
+    ".": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "P": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "N": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "B": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "R": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    "Q": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    "K": [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    "p": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    "n": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    "b": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    "r": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    "q": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    "k": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 }
+
 
 def show_board(board, material_score, position_score):
     print(str(board).translate(translation_rules))
     print(material_score, position_score)
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
     sys.stdout.flush()
+
 
 def board_tensor(board):
     res = []
@@ -33,7 +47,7 @@ def board_tensor(board):
             continue
         elif c == ' ':
             continue
-        res.append(PIECES[c] / 10)
+        res += PIECES_TENSORS[c]
     return res
 
 
