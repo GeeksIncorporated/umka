@@ -2,8 +2,9 @@ import os
 import torch
 
 PROJECT_ROOT_DIR = os.path.dirname(__file__)
-MODELS_DIR = os.path.join('content', 'drive', 'My Drive')
+MODELS_DIR = os.path.join('/content', 'drive', 'My Drive')
 PATH_TO_MODEL = os.path.join(MODELS_DIR, "model.pth.tar")
+print("Path to model", PATH_TO_MODEL)
 DEPTH = 4
 # ENABLE_OPENING_BOOK = False
 ENABLE_OPENING_BOOK = True
