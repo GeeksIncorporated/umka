@@ -3,6 +3,7 @@ import chess.svg
 from chess.pgn import Game
 from core.minimax import MiniMax
 from core.umka import Umka
+from settings import PATH_TO_MODEL
 
 
 def play(brain):
@@ -19,6 +20,6 @@ def play(brain):
 
 
 if __name__ == "__main__":
-    umka = Umka(path="model/model.pth.tar", training_enabled=False)
+    umka = Umka(path=PATH_TO_MODEL, training_enabled=False)
     brain = MiniMax(umka)
     play(brain)

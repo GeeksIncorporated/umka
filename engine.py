@@ -9,7 +9,6 @@ from chess.uci import Engine
 
 from core.minimax_optimized import MiniMaxOpt
 from settings import MODELS_DIR, DEPTH
-from core.minimax import MiniMax
 from core.umka import Umka
 
 

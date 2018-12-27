@@ -1,13 +1,14 @@
 import sys
 from core.umka import Umka
 from core.utils import annotated_sample_generator
+from settings import PATH_TO_MODEL
 
 sys.setrecursionlimit(3600000)
 
 
 def train_with_annotated_pgn():
     i = 0
-    with Umka(path="core/models/model.pth.tar",
+    with Umka(path=PATH_TO_MODEL,
               training_enabled=True) as umka:
         for epoch in range(100):
             sample_generator = annotated_sample_generator()
