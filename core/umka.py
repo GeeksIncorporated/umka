@@ -42,9 +42,10 @@ class Umka:
         for example "models/model.pth.tar"
         :return: Umka model and optimizer
         """
+
         if os.path.exists(self.path):
             self.__backup_model()
-            print("=> loading checkpoint")
+            print("=> loading checkpoint", self.path)
             checkpoint = torch.load(self.path)
             self.model.load_state_dict(checkpoint['state_dict'])
             self.optimizer.load_state_dict(checkpoint['optimizer'])
