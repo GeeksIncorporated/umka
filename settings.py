@@ -1,8 +1,6 @@
 import os
 import torch
 
-from core.utils import mount_google_drive
-
 PROJECT_ROOT_DIR = os.path.dirname(__file__)
 MODELS_DIR = os.path.join('content', 'drive', 'My drive')
 PATH_TO_MODEL = os.path.join(MODELS_DIR, "model.pth.tar")
