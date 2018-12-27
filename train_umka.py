@@ -24,5 +24,6 @@ def train_with_annotated_pgn():
                     batch_labels = []
                     batch_samples = []
 
+
 if __name__ == "__main__":
     train_with_annotated_pgn()

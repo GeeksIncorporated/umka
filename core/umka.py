@@ -90,7 +90,7 @@ class Umka:
             print("%.6s,\t%.6s\tLoss: %.6s" % (
                 current[0].item(), labels[0], delta.item()))
 
-            if randint(0, 1000) == 99:
+            if randint(0, 100) == 99:
                 self.__save_model()
                 print("----------")
         except:
