@@ -19,8 +19,7 @@ def train_with_annotated_pgn():
                 batch_samples += samples
                 batch_labels += labels
                 if i % 10 == 9:
-                    print(i,)
-                    umka.train(batch_samples, batch_labels)
+                    umka.train(i, batch_samples, batch_labels)
                     batch_labels = []
                     batch_samples = []
 

@@ -67,7 +67,7 @@ class Umka:
             }, f)
         print("saving cehckpoint:", self.path)
 
-    def train(self, samples, labels):
+    def train(self, i, samples, labels):
         """
         :param samples: tensor of shape [x, INPUT_SIZE]
         :param labels: tensor of shape [INPUT_SIZE]
@@ -87,12 +87,12 @@ class Umka:
             delta.backward()
             self.optimizer.step()
 
-            print("%.6s,\t%.6s\tLoss: %.6s" % (
+            print(i, "%.6s,\t%.6s\tLoss: %.6s" % (
                 current[0].item(), labels[0], delta.item()))
 
-            if randint(0, 100) == 99:
+            if i % 1000 == 990:
                 self.__save_model()
-                print("----------")
+                print("-----SAVED-----")
         except:
             print(sys.exc_info())
 
