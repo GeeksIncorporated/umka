@@ -9,7 +9,7 @@ from chess.polyglot import open_reader
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board, board_material
-from settings import DEVICE, ENABLE_OPENING_BOOK
+from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED
 
 
 class Umka:
@@ -19,7 +19,9 @@ class Umka:
         """
         self.path = path
         self.training_enabled = training_enabled
-        self.model = UmkaNeuralNet(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE).to(DEVICE)
+        self.model = UmkaNeuralNet(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE).to(
+            DEVICE)
+        self.model.share_memory()
         self.optimizer = torch.optim.SGD(
             self.model.parameters(),
             lr=LEARING_RATE,
@@ -79,7 +81,8 @@ class Umka:
             # plt.hist((labels), bins=len(labels)); plt.show()
             # input = torch.from_numpy(np.array(samples[:len(labels)]))
 
-            current = self.model(torch.FloatTensor(samples).to(DEVICE)).squeeze()
+            current = self.model(
+                torch.FloatTensor(samples).to(DEVICE)).squeeze()
             expected = torch.FloatTensor(labels).to(DEVICE)
             loss = torch.nn.MSELoss()
             delta = loss(current, expected)
@@ -108,13 +111,19 @@ class Umka:
             except:
                 return None
 
-    def evaluate(self, board):
-        sample = board_tensor(board=board)
-        input = torch.FloatTensor(sample).to(DEVICE)
-        evaluation = self.model(input)
+    def evaluate(self, board, is_capture=False, is_castling=False, evaluate_position=True):
         material_score = board_material(board)
-        position_score = evaluation.item()
-        score = 10 * material_score + position_score
+        if AI_ENABLED and not is_capture and evaluate_position:
+            sample = board_tensor(board=board)
+            input = torch.FloatTensor(sample).to(DEVICE)
+            evaluation = self.model(input)
+            position_score = evaluation.item()
+        elif is_castling:
+            position_score = 0.5
+        else:
+            position_score = 0
+
+        score = material_score + position_score
         show_board(board, material_score, position_score)
         if board.is_checkmate():
             score = 100
@@ -127,19 +136,18 @@ class Umka:
         score = PST[p][j] - PST[p][i]
         # Capture
         if q.islower():
-            score += PST[q.upper()][119-j]
+            score += PST[q.upper()][119 - j]
         # Castling check detection
-        if abs(j-self.kp) < 2:
-            score += PST['K'][119-j]
+        if abs(j - self.kp) < 2:
+            score += PST['K'][119 - j]
         # Castling
-        if p == 'K' and abs(i-j) == 2:
-            score += PST['R'][(i+j)//2]
+        if p == 'K' and abs(i - j) == 2:
+            score += PST['R'][(i + j) // 2]
             score -= PST['R'][A1 if j < i else H1]
         # Special pawn stuff
         if p == 'P':
             if A8 <= j <= H8:
                 score += PST['Q'][j] - pst['P'][j]
             if j == self.ep:
-                score += PST['P'][119-(j+S)]
+                score += PST['P'][119 - (j + S)]
         return score
-

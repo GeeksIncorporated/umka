@@ -1,7 +1,6 @@
 import chess.svg
 from chess.pgn import Game
 from core.minimax import MiniMax
-# from core.minimax_optimized import MiniMaxOpt
 from core.umka import Umka
 from settings import PATH_TO_MODEL, DEPTH
 

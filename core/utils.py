@@ -65,7 +65,7 @@ def board_material(board):
             continue
         elif c == ' ':
             continue
-        res += PIECES[c] / 100
+        res += PIECES[c] / 10
     return res
 
 
