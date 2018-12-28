@@ -1,3 +1,4 @@
+import itertools
 import sys
 import time
 from chess.polyglot import zobrist_hash
@@ -8,7 +9,6 @@ class MiniMax:
         self.umka = umka
         self.main_line = {}
         self.last_time_info_printed = 0
-        self.cache = {}
 
     def play(self, board, depth, alpha, beta, maximize):
         self.nodes += 1
@@ -18,13 +18,15 @@ class MiniMax:
 
         if board.is_game_over() or depth <= 0:
             score = self.umka.evaluate(board)
-            # score = score if maximize else -score
             self.cache[zobrist_hash(board)] = score
             return score
 
+        # moves = itertools.chain(board.generate_legal_captures(), board.legal_moves)
+        moves = board.legal_moves
+
         if maximize:
             value = float('inf')
-            for move in board.legal_moves:
+            for move in moves:
                 board.push(move)
                 value = min(value,
                             self.play(
@@ -32,20 +34,18 @@ class MiniMax:
                                 maximize=False))
                 board.pop()
                 if value < alpha:
-                    self.print_info(depth, move, value)
                     return value
                 beta = min(beta, value)
             return value
         else:
             value = float('-inf')
-            for move in board.legal_moves:
+            for move in moves:
                 board.push(move)
                 value = max(value,
                             self.play(board, depth - 1, alpha, beta,
                                       maximize=True))
                 board.pop()
                 if value > beta:
-                    self.print_info(depth, move, value)
                     return value
                 alpha = max(alpha, value)
             return value
@@ -53,6 +53,7 @@ class MiniMax:
     def run(self, board, depth):
         self.nodes = 0
         self.st = time.time()
+        self.cache = {}
         beta = float('inf')
         best_move = None
         if board.turn:
