@@ -1,7 +1,5 @@
 import time
 
-from settings import DEPTH
-
 
 class MiniMaxMDT:
     def __init__(self, umka):
@@ -76,7 +74,7 @@ class MiniMaxMDT:
         lowerbound = float('-inf')
         while lowerbound < upperbound:
             if g == lowerbound:
-                beta = g + 1
+                beta = g + 0.01
             else:
                 beta = g
 

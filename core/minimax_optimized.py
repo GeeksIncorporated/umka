@@ -57,7 +57,7 @@ class MiniMaxOpt:
         lowerBound = float('-inf')
         while lowerBound < upperBound:
             b = max(g, lowerBound + 0.01)
-            g = self.alpha_beta_with_memory(board, depth, b - 1, b, maximize)
+            g = self.alpha_beta_with_memory(board, depth, b - 0.1, b, maximize)
             if g < b:
                 upperBound = g
             else:
@@ -67,7 +67,7 @@ class MiniMaxOpt:
     def run(self, board, maximize):
         self.st = time.time()
         firstguess = 0
-        for d in range(4):
+        for d in range(100):
             firstguess = self.MDTf(board, firstguess, d, maximize)
         return self.main_line[1]
 

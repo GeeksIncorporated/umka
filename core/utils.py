@@ -34,8 +34,9 @@ PIECES_TENSORS = {
 
 
 def show_board(board, material_score, position_score):
+    return
     print(str(board).translate(translation_rules))
-    print(material_score, position_score)
+    print("%.6s %.6s" % (material_score, position_score))
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
     sys.stdout.flush()
 
@@ -48,6 +49,23 @@ def board_tensor(board):
         elif c == ' ':
             continue
         res += PIECES_TENSORS[c]
+    return res
+
+
+def board_material(board):
+    """
+    Calculates board material in centipawns.
+    White advantage positive, black negative.
+    :param board:
+    :return: score in centipawns
+    """
+    res = 0
+    for c in str(board):
+        if c == '\n':
+            continue
+        elif c == ' ':
+            continue
+        res += PIECES[c] / 100
     return res
 
 
@@ -104,3 +122,4 @@ def annotated_sample_generator():
             yield samples[:len(labels)], labels
         except:
             pass
+

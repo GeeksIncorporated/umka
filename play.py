@@ -2,15 +2,16 @@ from IPython.core.display import SVG
 import chess.svg
 from chess.pgn import Game
 from core.minimax import MiniMax
+# from core.minimax_optimized import MiniMaxOpt
 from core.umka import Umka
-from settings import PATH_TO_MODEL
+from settings import PATH_TO_MODEL, DEPTH
 
 
 def play(brain):
     board = chess.Board()
 
     while not board.is_game_over():
-        move = brain.run(board, depth=3)
+        move = brain.run(board, DEPTH)
         board.push(move)
         SVG(chess.svg.board(board=board, size=400))
         print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
