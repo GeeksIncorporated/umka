@@ -8,7 +8,6 @@ import chess
 from chess.uci import Engine
 
 from core.minimax import MiniMax
-from settings import MODELS_DIR, DEPTH
 from core.umka import Umka
 
 
@@ -16,7 +15,7 @@ class UmkaEngine(Engine):
 
     def __init__(self):
         self.board = None
-        self.path = os.path.join(MODELS_DIR, "model.pth.tar")
+        self.path = os.path.join("core/models/model.pth.tar")
 
     def on_line_received(self, l):
         # super(UmkaEngine, self).on_line_received(buf)
@@ -92,7 +91,7 @@ class UmkaEngine(Engine):
     def make_move(self):
         m = self.brain.umka.get_move_from_opennings(self.board)
         if not m:
-            m = self.brain.run(self.board, DEPTH)
+            m = self.brain.run(self.board)
         return m
 
 

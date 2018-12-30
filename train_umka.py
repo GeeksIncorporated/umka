@@ -2,7 +2,6 @@ import sys
 from core.umka import Umka
 from core.utils import annotated_sample_generator
 from settings import PATH_TO_MODEL
-
 sys.setrecursionlimit(3600000)
 
 
@@ -22,7 +21,6 @@ def train_with_annotated_pgn():
                     umka.train(i, batch_samples, batch_labels)
                     batch_labels = []
                     batch_samples = []
-
 
 if __name__ == "__main__":
     train_with_annotated_pgn()

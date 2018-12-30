@@ -15,7 +15,7 @@ class MiniMaxMDT:
         value = float('inf')
         for move in board.legal_moves:
             board.push(move)
-            value = min(value, self.max_play(board, depth - 1, alpha, beta))
+            value = min(value, self.max_play(board, depth + 1, alpha, beta))
             self.best_move = board.pop()
             if value < alpha:
                 return value
@@ -30,7 +30,7 @@ class MiniMaxMDT:
         value = float('-inf')
         for move in board.legal_moves:
             board.push(move)
-            value = max(value, self.min_play(board, depth - 1, alpha, beta))
+            value = max(value, self.min_play(board, depth + 1, alpha, beta))
             self.best_move = board.pop()
             if value > beta:
                 return value

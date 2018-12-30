@@ -34,11 +34,10 @@ PIECES_TENSORS = {
 
 
 def show_board(board, material_score, position_score):
-    return
-    print(str(board).translate(translation_rules))
-    print("%.6s %.6s" % (material_score, position_score))
+    # return
+    # print(str(board).translate(translation_rules))
+    # print("%.6s %.6s" % (material_score, position_score))
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
-    sys.stdout.flush()
 
 
 def board_tensor(board):
@@ -123,3 +122,9 @@ def annotated_sample_generator():
         except:
             pass
 
+
+def position_needs_attention(board, move):
+    return any(
+        [board.is_capture(move),
+         board.is_castling(move),
+         board.is_check()])
