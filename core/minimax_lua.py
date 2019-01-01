@@ -1,9 +1,6 @@
 import time
-
 import chess
 from lupa import LuaRuntime
-from core.umka import Umka
-from play import play
 
 
 class MiniMaxLua:
@@ -42,7 +39,7 @@ class MiniMaxLua:
 
 if __name__ == "__main__":
     # umka = Umka(path="model/model.pth.tar", training_enabled=False)
-    # brain = MiniMaxLua(umka)
+    # brain = MiniMaxLua(umka)show
     # play(brain)
     board = chess.Board()
 
@@ -51,20 +48,21 @@ if __name__ == "__main__":
     res = []
 
     is_over = lua.eval("""
-    function (board) 
+    function (board, bulk) 
         for i=1,1000000 do
             board.push_uci('e2e4')
             board.pop()
         end
     end""")
-    is_over(board)
-    print(1000000.0 / (time.time() - st))
+    bulk_size = 1000
+    is_over(board, bulk_size)
+    print(bulk_size / (time.time() - st))
 
     st = time.time()
     lua = LuaRuntime(unpack_returned_tuples=True)
     res = []
-    for i in range(1000000):
+    for i in range(bulk_size):
         board.push_uci("e2e4")
         board.pop()
 
-    print(1000000.0/(time.time() - st))
+    print(100000.0/(time.time() - st))

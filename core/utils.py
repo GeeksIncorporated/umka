@@ -34,7 +34,7 @@ PIECES_TENSORS = {
 
 
 def show_board(board, material_score, position_score):
-    # return
+    return
     # print(str(board).translate(translation_rules))
     # print("%.6s %.6s" % (material_score, position_score))
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])

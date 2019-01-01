@@ -5,11 +5,11 @@ PROJECT_ROOT_DIR = os.path.dirname(__file__)
 MODELS_DIR = os.path.join('/content', 'drive', 'My Drive')
 PATH_TO_MODEL = os.path.join(MODELS_DIR, "model.pth.tar")
 print("Path to model", PATH_TO_MODEL)
-DEPTH = 3
-MAX_DEPTH = 3
+DEPTH = 4
+MAX_DEPTH = 4
 CONCURRENTS = 16
 ENABLE_OPENING_BOOK = False
-# ENABLE_OPENING_BOOK = True
+ENABLE_OPENING_BOOK = True
 AI_ENABLED = True
 
 if torch.cuda.is_available():

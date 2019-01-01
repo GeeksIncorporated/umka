@@ -1,3 +1,4 @@
-## Test
+Umka is **AI** based Chess Engine.
 
-This is a test
+The name applies to a russian cartoon character - little 
+polar bear.

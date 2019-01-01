@@ -7,7 +7,7 @@ import sys
 import chess
 from chess.uci import Engine
 
-from core.minimax import MiniMax
+from core.minimax_id import MiniMaxIterativeDeepening
 from core.umka import Umka
 
 
@@ -31,7 +31,7 @@ class UmkaEngine(Engine):
             self.board = chess.Board()
             self.umka = Umka(
                 self.path, training_enabled=False)
-            self.brain = MiniMax(self.umka)
+            self.brain = MiniMaxIterativeDeepening(self.umka)
 
         elif l == 'white':
             m = self.make_move()
@@ -91,7 +91,7 @@ class UmkaEngine(Engine):
     def make_move(self):
         m = self.brain.umka.get_move_from_opennings(self.board)
         if not m:
-            m = self.brain.run(self.board)
+            m = self.brain.make_move(self.board, time_to_think=120)
         return m
 
 

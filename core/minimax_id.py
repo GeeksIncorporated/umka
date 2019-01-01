@@ -8,27 +8,24 @@ from settings import DEPTH, MAX_DEPTH
 INF = float('inf')
 
 
-class MiniMax:
+class MiniMaxIterativeDeepening:
     def __init__(self, umka):
         self.umka = umka
         self.best_move = "N/A"
         self.best_val = 0
         self.last_time_info_printed = 0
         self.cached = 0
+        self.time_to_think = 30     # sec
 
-    def play(self, board, depth, alpha, beta, maximize, need_attention, d):
+    def time_is_up(self):
+        return time.time() - self.st > self.time_to_think
+
+    def _minimax(self, board, depth, alpha, beta, maximize, need_attention, d):
         self.nodes += 1
         if zobrist_hash(board) in self.cache:
-            self.cached += 1
             return self.cache[zobrist_hash(board)]
 
-        if need_attention:
-            depth -= 1
-
-        if d >= MAX_DEPTH:
-            depth = MAX_DEPTH
-
-        if depth >= DEPTH:
+        if depth > self.max_depth or self.time_is_up():
             score = self.umka.evaluate(board, need_attention)
             self.print_info(d)
             self.cache[zobrist_hash(board)] = score
@@ -44,7 +41,7 @@ class MiniMax:
                 need_attention = position_needs_attention(board, move)
                 board.push(move)
                 value = min(value,
-                            self.play(
+                            self._minimax(
                                 board, depth + 1, alpha, beta,
                                 False, need_attention, d + 1))
                 board.pop()
@@ -58,18 +55,17 @@ class MiniMax:
                 need_attention = position_needs_attention(board, move)
                 board.push(move)
                 value = max(value,
-                            self.play(board, depth + 1, alpha, beta,
-                                      True, need_attention, d + 1))
+                            self._minimax(board, depth + 1, alpha, beta,
+                                          True, need_attention, d + 1))
                 board.pop()
                 if value > beta:
                     return value
                 alpha = max(alpha, value)
             return value
 
-    def run(self, board, depth=0):
+    def alphabeta_minimax(self, board, depth=0):
         d = 0
         self.nodes = 0
-        self.st = time.time()
         self.cache = {}
         beta = float('inf')
         moves = itertools.chain(
@@ -81,7 +77,7 @@ class MiniMax:
             for move in moves:
                 need_attention = position_needs_attention(board, move)
                 board.push(move)
-                value = self.play(
+                value = self._minimax(
                     board, depth + 1, best_val, beta, True, need_attention, d + 1)
                 board.pop()
                 if value > best_val:
@@ -94,7 +90,7 @@ class MiniMax:
             for move in moves:
                 need_attention = position_needs_attention(board, move)
                 board.push(move)
-                value = self.play(
+                value = self._minimax(
                     board, depth + 1, best_val, beta, False, need_attention, d + 1)
                 if value < best_val:
                     best_val = value
@@ -102,7 +98,7 @@ class MiniMax:
                     self.best_move = best_move
                     self.best_val = best_val
                 board.pop()
-        return best_move
+        return best_move, best_val
 
     def print_info(self, depth):
         if (time.time() - self.last_time_info_printed) < 0.5:
@@ -117,3 +113,24 @@ class MiniMax:
                 self.best_move))
         self.last_time_info_printed = time.time()
         sys.stdout.flush()
+
+    def make_move(self, board, time_to_think=30):
+        self.st = time.time()
+        self.time_to_think = time_to_think
+        d = 0
+        best_move = None
+        best_val = -INF if board.turn else INF
+        while not self.time_is_up():
+            self.max_depth = d
+            move, val = self.alphabeta_minimax(board)
+            if board.turn:
+                if val > best_val:
+                    best_move = move
+                    best_val = val
+            else:
+                if val < best_val:
+                    best_move = move
+                    best_val = val
+            print(best_move, self.nodes, len(self.cache))
+            d += 1
+        return best_move
