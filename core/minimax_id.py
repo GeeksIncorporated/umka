@@ -18,10 +18,9 @@ class MiniMaxIterativeDeepening:
         self.best_val = 0
         self.last_time_info_printed = 0
         self.cached = 0
-        self.time_to_think = 30  # sec
+        self.time_to_think = 60  # sec
 
     def time_is_up(self):
-        return
         return time.time() - self.st > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
@@ -71,7 +70,6 @@ class MiniMaxIterativeDeepening:
 
                 alpha = max(alpha, value)
             return value
-
 
     def alphabeta_minimax(self, board, depth=0):
 
@@ -137,7 +135,7 @@ class MiniMaxIterativeDeepening:
             board.generate_legal_captures(),
             board.legal_moves)]
 
-        d = 1
+        d = 3
         while d < DEPTH:
             self.max_depth = d
             self.alphabeta_minimax(board)

@@ -8,10 +8,8 @@ print("Path to model", PATH_TO_MODEL)
 DEPTH = 4
 MAX_DEPTH = 5
 CONCURRENTS = 16
-# ENABLE_OPENING_BOOK = False
 ENABLE_OPENING_BOOK = True
 AI_ENABLED = True
-CHECKMAT = 100
 
 
 if torch.cuda.is_available():

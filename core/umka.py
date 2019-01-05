@@ -9,7 +9,7 @@ from chess.polyglot import open_reader
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board, board_material
-from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED, CHECKMAT
+from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED
 
 piece = {'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000}
 pst = {
@@ -175,7 +175,7 @@ class Umka:
             position_score = 0
 
         if board.is_checkmate():
-            score = CHECKMAT
+            score = 100
         else:
             score = material_score + position_score
         show_board(board, material_score, position_score)

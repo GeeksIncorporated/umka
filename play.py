@@ -11,7 +11,9 @@ def play(brain):
     board = chess.Board()
 
     while not board.is_game_over():
-        move = brain.make_move(board, time_to_think=10)
+        for t in [5, 10, 30, 60, 120]:
+            move = brain.make_move(board, time_to_think=t)
+            print(t, move, brain.best_val, brain.best_move, brain.root_moves)
         board.push(move)
         pprint.pprint(str(board))
         print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
