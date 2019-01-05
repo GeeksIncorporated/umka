@@ -91,7 +91,8 @@ class UmkaEngine(Engine):
     def make_move(self):
         m = self.brain.umka.get_move_from_opennings(self.board)
         if not m:
-            m = self.brain.make_move(self.board, time_to_think=120)
+            m = self.brain.make_move(self.board, time_to_think=60)
+            print("highlight e4")
         return m
 
 

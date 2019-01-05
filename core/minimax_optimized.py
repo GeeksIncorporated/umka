@@ -32,7 +32,7 @@ class MiniMaxOpt:
                 board.pop()
                 if value > beta:
                     self.main_line[depth] = move
-                    # self.print_info(depth, move, value)
+                    self.print_info(depth, move, value)
                     return value
                 alpha = max(alpha, value)
             return value

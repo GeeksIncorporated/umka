@@ -9,7 +9,7 @@ from chess.polyglot import open_reader
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board, board_material
-from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED
+from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED, CHECKMAT
 
 piece = {'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000}
 pst = {
@@ -163,8 +163,8 @@ class Umka:
             except:
                 return None
 
-    def evaluate(self, board, skip=False):
-        material_score = board_material(board)
+    def evaluate(self, board):
+        material_score = 10 * board_material(board)
 
         if AI_ENABLED:
             sample = board_tensor(board=board)
@@ -175,31 +175,8 @@ class Umka:
             position_score = 0
 
         if board.is_checkmate():
-            score = 100
+            score = CHECKMAT
         else:
-            score = 10 * material_score + position_score
+            score = material_score + position_score
         show_board(board, material_score, position_score)
-        return score
-
-    def value(self, move):
-        i, j = move
-        p, q = self.board[i], self.board[j]
-        # Actual move
-        score = PST[p][j] - PST[p][i]
-        # Capture
-        if q.islower():
-            score += PST[q.upper()][119 - j]
-        # Castling check detection
-        if abs(j - self.kp) < 2:
-            score += PST['K'][119 - j]
-        # Castling
-        if p == 'K' and abs(i - j) == 2:
-            score += PST['R'][(i + j) // 2]
-            score -= PST['R'][A1 if j < i else H1]
-        # Special pawn stuff
-        if p == 'P':
-            if A8 <= j <= H8:
-                score += PST['Q'][j] - pst['P'][j]
-            if j == self.ep:
-                score += PST['P'][119 - (j + S)]
         return score
