@@ -9,7 +9,7 @@ from chess.polyglot import open_reader
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
     LEARING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board, board_material
-from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED
+from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED, CHECKMATE
 
 piece = {'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000}
 pst = {
@@ -69,6 +69,7 @@ class Umka:
         """
         :param training_enabled: if True set for trainging False - for playing.
         """
+        self.prev_material_score = 0
         self.path = path
         self.training_enabled = training_enabled
         self.model = UmkaNeuralNet(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE).to(
@@ -163,20 +164,23 @@ class Umka:
             except:
                 return None
 
-    def evaluate(self, board):
+    def evaluate(self, board, depth):
         material_score = 10 * board_material(board)
 
-        if AI_ENABLED:
+        if not board.turn and AI_ENABLED and \
+                abs(int(material_score) - self.prev_material_score) == 0:
             sample = board_tensor(board=board)
             input = torch.FloatTensor(sample).to(DEVICE)
             evaluation = self.model(input)
             position_score = evaluation.item()
         else:
             position_score = 0
-
+        self.prev_material_score = int(material_score)
         if board.is_checkmate():
-            score = 100
+            score = CHECKMATE
         else:
             score = material_score + position_score
+            score *= float(depth) / 3
+
         show_board(board, material_score, position_score)
         return score

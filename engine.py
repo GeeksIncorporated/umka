@@ -9,12 +9,14 @@ from chess.uci import Engine
 
 from core.minimax_id import MiniMaxIterativeDeepening
 from core.umka import Umka
+from settings import ENGINE_TIME
 
 
 class UmkaEngine(Engine):
 
     def __init__(self):
         self.board = None
+        self.time_to_think = 1200 * 100
         self.path = os.path.join("core/models/model.pth.tar")
 
     def on_line_received(self, l):
@@ -42,12 +44,20 @@ class UmkaEngine(Engine):
             pass
 
         elif l.startswith('time'):
-            pass
+            self.time_to_think = 120 * 100 #float(l.split(" ")[1]) / 10
+            print(self.time_to_think)
 
         elif l.startswith('otim'):
             pass
-
+        elif l.startswith('force'):
+            pass
         elif l.startswith('computer'):
+            pass
+        elif l.startswith('undo'):
+            self.board.pop()
+        elif l.startswith('setboard'):
+            self.board = chess.Board(fen=" ".join(l.split(" ")[1:]))
+        elif l.startswith('result'):
             pass
 
         elif l == 'uci':
@@ -59,7 +69,7 @@ class UmkaEngine(Engine):
             print("option name matetest type check default true")
             print("option name MoveError type spin default 0 min 0 max 1024")
             print(
-                "option name BlunderError type spin default 0 min 0 max 1024")
+                "option name BlunderError type  spin default 0 min 0 max 1024")
             print(
                 "option name BlunderPercent type spin default 0 min 0 max 1024")
             print("uciok")
@@ -91,8 +101,7 @@ class UmkaEngine(Engine):
     def make_move(self):
         m = self.brain.umka.get_move_from_opennings(self.board)
         if not m:
-            m = self.brain.make_move(self.board, time_to_think=60)
-            print("highlight e4")
+            m = self.brain.make_move(self.board, time_to_think=self.time_to_think)
         return m
 
 

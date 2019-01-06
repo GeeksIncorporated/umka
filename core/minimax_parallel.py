@@ -117,7 +117,7 @@ class MiniMaxParallel:
             return min(moves)[2]
 
     def print_info(self, depth):
-        if (time.time() - self.last_time_info_printed) < 0.5:
+        if (time.time() - self.last_time_info_printed) < 1:
             return
         move_time = time.time() - self.st
         t = int(move_time) * 1000

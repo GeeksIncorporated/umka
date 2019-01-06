@@ -10,7 +10,8 @@ MAX_DEPTH = 5
 CONCURRENTS = 16
 ENABLE_OPENING_BOOK = True
 AI_ENABLED = True
-
+ENGINE_TIME = 60
+CHECKMATE = 100
 
 if torch.cuda.is_available():
     DEVICE = torch.device('cuda')

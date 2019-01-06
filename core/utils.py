@@ -124,7 +124,7 @@ def annotated_sample_generator():
 
 
 def position_needs_attention(board, move):
-    return False
+    # return False
     return any(
         [board.is_capture(move),
          board.is_castling(move),
