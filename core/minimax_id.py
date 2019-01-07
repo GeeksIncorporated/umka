@@ -48,10 +48,7 @@ class MiniMaxIterativeDeepening:
                                 board, depth + 1, alpha, beta, False))
                 board.pop()
 
-                if abs(value) == CHECKMATE:
-                    break
-
-                if value < alpha:
+                if value <= alpha:
                     break
 
                 beta = min(beta, value)
@@ -64,10 +61,8 @@ class MiniMaxIterativeDeepening:
                 value = max(value,
                             self._minimax(board, depth + 1, alpha, beta, True))
                 board.pop()
-                if abs(value) == CHECKMATE:
-                    break
 
-                if value > beta:
+                if value >= beta:
                     break
 
                 alpha = max(alpha, value)
@@ -89,6 +84,8 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_left(self.root_moves, SortableMove(rm.move, -value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
+                if abs(self.best_val) == INF:
+                    break
         else:
             best_val = INF
             for rm in list(self.root_moves):
@@ -100,6 +97,8 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_left(self.root_moves, SortableMove(rm.move, value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
+                if abs(self.best_val) == INF:
+                    break
         return self.best_move
 
     def print_info(self, depth, board):
