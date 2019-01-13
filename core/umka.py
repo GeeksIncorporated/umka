@@ -178,10 +178,7 @@ class Umka:
         if board.is_checkmate():
             score = CHECKMATE
         else:
-            if not board.turn:
-                score = material_score + position_score
-            else:
-                score = material_score - position_score
+            score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
         show_board(board, material_score, position_score)

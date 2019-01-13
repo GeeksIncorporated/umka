@@ -87,11 +87,11 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_right(self.root_moves, SortableMove(rm.move, -value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
-                if abs(self.best_val) == INF:
+                if self.best_val == INF:
                     break
                 self.print_info(depth, board)
         else:
-            best_val = INF
+            best_val = -INF
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
@@ -104,7 +104,7 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_right(self.root_moves, SortableMove(rm.move, value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
-                if abs(self.best_val) == INF:
+                if self.best_val == -INF:
                     break
                 self.print_info(depth, board)
         return self.best_move

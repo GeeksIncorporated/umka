@@ -43,7 +43,7 @@ class UmkaEngine(Engine):
             pass
 
         elif l.startswith('time'):
-            self.time_to_think = min(60, float(l.split(" ")[1]) / 500)
+            self.time_to_think = float(l.split(" ")[1]) / 500
             print(self.time_to_think)
 
         elif l.startswith('otim'):
