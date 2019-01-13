@@ -21,8 +21,8 @@ class MiniMaxIterativeDeepening:
         self.time_to_think = 60 * 100  # sec
 
     def time_is_up(self):
-        return
-        return (time.time() - self.st) * 100 > self.time_to_think
+        # return
+        return (time.time() - self.st) > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
 
@@ -40,7 +40,7 @@ class MiniMaxIterativeDeepening:
         if maximize:
             value = INF
             for move in board.legal_moves:
-                if self.time_is_up() and board.halfmove_clock > 1:
+                if self.time_is_up():
                     return -INF
                 board.push(move)
                 value = min(value,
@@ -55,7 +55,7 @@ class MiniMaxIterativeDeepening:
         else:
             value = -INF
             for move in board.legal_moves:
-                if self.time_is_up() and board.halfmove_clock > 1:
+                if self.time_is_up():
                     return INF
                 board.push(move)
                 value = max(value,
@@ -78,27 +78,35 @@ class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, True)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, True)
                 board.pop()
-                bisect.insort_left(self.root_moves, SortableMove(rm.move, -value))
+                bisect.insort_right(self.root_moves, SortableMove(rm.move, -value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
                 if abs(self.best_val) == INF:
                     break
+                self.print_info(depth, board)
         else:
             best_val = INF
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, False)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, False)
                 board.pop()
-                bisect.insort_left(self.root_moves, SortableMove(rm.move, value))
+                bisect.insort_right(self.root_moves, SortableMove(rm.move, value))
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
                 if abs(self.best_val) == INF:
                     break
+                self.print_info(depth, board)
         return self.best_move
 
     def print_info(self, depth, board):
@@ -123,8 +131,6 @@ class MiniMaxIterativeDeepening:
 
         self.root_moves = [
             SortableMove(m) for m in itertools.chain(
-            # board.generate_castling_moves(),
-            # board.generate_legal_captures(),
             board.legal_moves)]
 
         d = 1

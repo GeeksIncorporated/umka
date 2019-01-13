@@ -9,7 +9,6 @@ from chess.uci import Engine
 
 from core.minimax_id import MiniMaxIterativeDeepening
 from core.umka import Umka
-from settings import ENGINE_TIME
 
 
 class UmkaEngine(Engine):
@@ -44,7 +43,7 @@ class UmkaEngine(Engine):
             pass
 
         elif l.startswith('time'):
-            self.time_to_think = 120 * 100 #float(l.split(" ")[1]) / 10
+            self.time_to_think = min(60, float(l.split(" ")[1]) / 500)
             print(self.time_to_think)
 
         elif l.startswith('otim'):
@@ -54,7 +53,8 @@ class UmkaEngine(Engine):
         elif l.startswith('computer'):
             pass
         elif l.startswith('undo'):
-            self.board.pop()
+            # self.board.pop()
+            pass
         elif l.startswith('setboard'):
             self.board = chess.Board(fen=" ".join(l.split(" ")[1:]))
         elif l.startswith('result'):
@@ -85,6 +85,12 @@ class UmkaEngine(Engine):
             pass
 
         elif l.startswith('go'):
+            pass
+
+        elif l.startswith('result'):
+            pass
+
+        elif l.startswith('force'):
             pass
 
         else:

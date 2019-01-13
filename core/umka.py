@@ -167,20 +167,22 @@ class Umka:
     def evaluate(self, board, depth):
         material_score = 10 * board_material(board)
 
-        if AI_ENABLED and \
-                abs(int(material_score) - self.prev_material_score) == 0:
+        if AI_ENABLED:
             sample = board_tensor(board=board)
             input = torch.FloatTensor(sample).to(DEVICE)
             evaluation = self.model(input)
             position_score = evaluation.item()
         else:
             position_score = 0
-        self.prev_material_score = int(material_score)
+        # self.prev_material_score = int(material_score)
         if board.is_checkmate():
             score = CHECKMATE
         else:
-            score = material_score - position_score
-            score *= float(depth) / 3
-
+            if not board.turn:
+                score = material_score + position_score
+            else:
+                score = material_score - position_score
+            # score /= float(depth)
+        # print(material_score, position_score)
         show_board(board, material_score, position_score)
         return score
