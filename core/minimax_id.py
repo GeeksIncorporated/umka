@@ -32,7 +32,7 @@ class MiniMaxIterativeDeepening:
             return self.cache[zobrist_hash(board)]
 
         if depth >= self.max_depth:
-            score = self.umka.evaluate(board, depth)
+            score = self.umka.evaluate(board, depth, maximize)
             self.print_info(depth, board)
             self.cache[zobrist_hash(board)] = score
             return score
@@ -40,12 +40,11 @@ class MiniMaxIterativeDeepening:
         if maximize:
             value = INF
             for move in board.legal_moves:
-                if self.time_is_up():
-                    return -INF
+                # if self.time_is_up():
+                #     return -INF
                 board.push(move)
                 value = min(value,
-                            self._minimax(
-                                board, depth + 1, alpha, beta, False))
+                            self._minimax(board, depth + 1, alpha, beta, False))
                 board.pop()
 
                 if value <= alpha:
@@ -55,8 +54,8 @@ class MiniMaxIterativeDeepening:
         else:
             value = -INF
             for move in board.legal_moves:
-                if self.time_is_up():
-                    return INF
+                # if self.time_is_up():
+                #     return INF
                 board.push(move)
                 value = max(value,
                             self._minimax(board, depth + 1, alpha, beta, True))
@@ -84,7 +83,8 @@ class MiniMaxIterativeDeepening:
                     value = self._minimax(
                         board, depth + 1, best_val, beta, True)
                 board.pop()
-                bisect.insort_right(self.root_moves, SortableMove(rm.move, -value))
+                rm.value = -value
+                bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
                 if self.best_val == INF:
@@ -101,13 +101,13 @@ class MiniMaxIterativeDeepening:
                     value = self._minimax(
                         board, depth + 1, best_val, beta, False)
                 board.pop()
-                bisect.insort_right(self.root_moves, SortableMove(rm.move, value))
+                rm.value = value
+                bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
                 if self.best_val == -INF:
                     break
                 self.print_info(depth, board)
-        return self.best_move
 
     def print_info(self, depth, board):
         if (time.time() - self.last_time_info_printed) < 2:

@@ -164,7 +164,7 @@ class Umka:
             except:
                 return None
 
-    def evaluate(self, board, depth):
+    def evaluate(self, board, depth, maximize):
         material_score = 10 * board_material(board)
 
         if AI_ENABLED:
@@ -178,6 +178,8 @@ class Umka:
         if board.is_checkmate():
             score = CHECKMATE
         else:
+            if not maximize:
+                position_score = -position_score
             score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
