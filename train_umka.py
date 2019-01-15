@@ -1,6 +1,6 @@
 import sys
-from core.umka import Umka
-from core.utils import annotated_sample_generator
+from core.__umka import Umka
+from core.__utils import annotated_sample_generator
 from settings import PATH_TO_MODEL
 sys.setrecursionlimit(3600000)
 

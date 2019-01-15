@@ -5,7 +5,7 @@ import chess
 from chess.pgn import Game
 
 from core.minimax import MiniMax
-from core.umka import Umka
+from core.__umka import Umka
 from settings import PATH_TO_MODEL, DEPTH
 import PyMoveGen as board_c
 

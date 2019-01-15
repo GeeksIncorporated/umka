@@ -1,3 +1,4 @@
+# distutils: language=c++
 import bisect
 import itertools
 import sys
@@ -6,6 +7,7 @@ import time
 import chess
 from chess import Move
 from chess.polyglot import zobrist_hash
+
 from settings import DEPTH
 
 INF = 10000

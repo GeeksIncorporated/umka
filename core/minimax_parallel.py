@@ -3,7 +3,7 @@ import time
 from multiprocessing.dummy import Pool
 
 from chess.polyglot import zobrist_hash
-from core.utils import position_needs_attention
+from core.__utils import position_needs_attention
 from settings import DEPTH, CONCURRENTS, MAX_DEPTH
 
 

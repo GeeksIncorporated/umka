@@ -19,10 +19,12 @@ def play(brain):
     game = Game().from_board(board)
     print(game)
 
-
-if __name__ == "__main__":
+def main():
     umka = Umka(path="core/models/model.pth.tar", training_enabled=False)
     brain = MiniMaxIterativeDeepening(umka)
     st = time.time()
     play(brain)
     print(time.time() - st)
+
+if __name__ == "__main__":
+    main()

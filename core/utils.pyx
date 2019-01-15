@@ -1,3 +1,4 @@
+# distutils: language=c++
 import csv
 import sys
 import time

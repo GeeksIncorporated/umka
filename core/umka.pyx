@@ -1,3 +1,4 @@
+# distutils: language=c++
 import datetime
 import os
 import shutil
@@ -168,7 +169,7 @@ class Umka:
         material_score = 10 * board_material(board)
 
         if AI_ENABLED:
-            sample = board_tensor(board=board)
+            sample = board_tensor(board)
             input = torch.FloatTensor(sample).to(DEVICE)
             evaluation = self.model(input)
             position_score = evaluation.item()
