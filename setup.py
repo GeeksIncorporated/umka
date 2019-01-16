@@ -3,6 +3,7 @@ from Cython.Build import cythonize
 
 setup(name='Hello world app',
       ext_modules=cythonize([
-          "core/*.pyx",
-          "chess/*.pyx"],
-          annotate=True))
+          "test.pyx"
+          # "core/*.pyx",
+          # "chess/*.pyx"
+          ], annotate=True))

@@ -1540,8 +1540,8 @@ static PyObject *__pyx_codeobj__22;
 /* Late includes */
 
 /* "core/minimax_id.pyx":17
- * 
  * class MiniMaxIterativeDeepening:
+ * 
  *     def __init__(self, umka):             # <<<<<<<<<<<<<<
  *         self.umka = umka
  *         self.best_move = None
@@ -1615,7 +1615,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening___init_
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "core/minimax_id.pyx":18
- * class MiniMaxIterativeDeepening:
+ * 
  *     def __init__(self, umka):
  *         self.umka = umka             # <<<<<<<<<<<<<<
  *         self.best_move = None
@@ -1669,8 +1669,8 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening___init_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_to_think, __pyx_int_6000) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
 
   /* "core/minimax_id.pyx":17
- * 
  * class MiniMaxIterativeDeepening:
+ * 
  *     def __init__(self, umka):             # <<<<<<<<<<<<<<
  *         self.umka = umka
  *         self.best_move = None
@@ -4118,7 +4118,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
  *             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
  *                 t, depth, self.nodes, int(self.nodes / move_time),             # <<<<<<<<<<<<<<
  *                 int(1000 * self.best_val),
- *                 self.best_move, self.root_moves,
+ *                 self.best_move, self.root_moves ,
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4135,7 +4135,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
  *             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
  *                 t, depth, self.nodes, int(self.nodes / move_time),
  *                 int(1000 * self.best_val),             # <<<<<<<<<<<<<<
- *                 self.best_move, self.root_moves,
+ *                 self.best_move, self.root_moves ,
  *                 str(chess.pgn.Game().from_board(board)).split("\n\n")[1]))
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_best_val); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
@@ -4150,7 +4150,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
   /* "core/minimax_id.pyx":124
  *                 t, depth, self.nodes, int(self.nodes / move_time),
  *                 int(1000 * self.best_val),
- *                 self.best_move, self.root_moves,             # <<<<<<<<<<<<<<
+ *                 self.best_move, self.root_moves ,             # <<<<<<<<<<<<<<
  *                 str(chess.pgn.Game().from_board(board)).split("\n\n")[1]))
  *         self.last_time_info_printed = time.time()
  */
@@ -4161,7 +4161,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
 
   /* "core/minimax_id.pyx":125
  *                 int(1000 * self.best_val),
- *                 self.best_move, self.root_moves,
+ *                 self.best_move, self.root_moves ,
  *                 str(chess.pgn.Game().from_board(board)).split("\n\n")[1]))             # <<<<<<<<<<<<<<
  *         self.last_time_info_printed = time.time()
  *         sys.stdout.flush()
@@ -4237,7 +4237,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
  *             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
  *                 t, depth, self.nodes, int(self.nodes / move_time),             # <<<<<<<<<<<<<<
  *                 int(1000 * self.best_val),
- *                 self.best_move, self.root_moves,
+ *                 self.best_move, self.root_moves ,
  */
   __pyx_t_7 = PyTuple_New(8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -4280,7 +4280,7 @@ static PyObject *__pyx_pf_4core_10minimax_id_25MiniMaxIterativeDeepening_8print_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
   /* "core/minimax_id.pyx":126
- *                 self.best_move, self.root_moves,
+ *                 self.best_move, self.root_moves ,
  *                 str(chess.pgn.Game().from_board(board)).split("\n\n")[1]))
  *         self.last_time_info_printed = time.time()             # <<<<<<<<<<<<<<
  *         sys.stdout.flush()
@@ -5338,8 +5338,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "core/minimax_id.pyx":17
- * 
  * class MiniMaxIterativeDeepening:
+ * 
  *     def __init__(self, umka):             # <<<<<<<<<<<<<<
  *         self.umka = umka
  *         self.best_move = None
@@ -5864,23 +5864,23 @@ if (!__Pyx_RefNanny) {
  * 
  * INF = 10000             # <<<<<<<<<<<<<<
  * 
- * 
+ * class MiniMaxIterativeDeepening:
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_INF, __pyx_int_10000) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "core/minimax_id.pyx":16
- * 
+  /* "core/minimax_id.pyx":15
+ * INF = 10000
  * 
  * class MiniMaxIterativeDeepening:             # <<<<<<<<<<<<<<
+ * 
  *     def __init__(self, umka):
- *         self.umka = umka
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_MiniMaxIterativeDeepening, __pyx_n_s_MiniMaxIterativeDeepening, (PyObject *) NULL, __pyx_n_s_core_minimax_id, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_MiniMaxIterativeDeepening, __pyx_n_s_MiniMaxIterativeDeepening, (PyObject *) NULL, __pyx_n_s_core_minimax_id, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
   /* "core/minimax_id.pyx":17
- * 
  * class MiniMaxIterativeDeepening:
+ * 
  *     def __init__(self, umka):             # <<<<<<<<<<<<<<
  *         self.umka = umka
  *         self.best_move = None
@@ -5952,16 +5952,16 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_make_move, __pyx_t_1) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "core/minimax_id.pyx":16
- * 
+  /* "core/minimax_id.pyx":15
+ * INF = 10000
  * 
  * class MiniMaxIterativeDeepening:             # <<<<<<<<<<<<<<
+ * 
  *     def __init__(self, umka):
- *         self.umka = umka
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_MiniMaxIterativeDeepening, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_MiniMaxIterativeDeepening, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MiniMaxIterativeDeepening, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MiniMaxIterativeDeepening, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 

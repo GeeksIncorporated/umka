@@ -2,7 +2,7 @@ import itertools
 import sys
 import time
 from chess.polyglot import zobrist_hash
-from core.__utils import position_needs_attention
+from core.utils import position_needs_attention
 from settings import DEPTH, MAX_DEPTH
 
 INF = float('inf')

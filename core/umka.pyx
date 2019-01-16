@@ -66,6 +66,7 @@ pst = {
 
 
 class Umka:
+
     def __init__(self, path, training_enabled):
         """
         :param training_enabled: if True set for trainging False - for playing.
@@ -165,7 +166,7 @@ class Umka:
             except:
                 return None
 
-    def evaluate(self, board, depth, maximize):
+    def evaluate(self, board, int depth, int maximize):
         material_score = 10 * board_material(board)
 
         if AI_ENABLED:

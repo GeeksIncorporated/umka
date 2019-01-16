@@ -14,6 +14,7 @@ INF = 10000
 
 
 class MiniMaxIterativeDeepening:
+
     def __init__(self, umka):
         self.umka = umka
         self.best_move = None
@@ -23,7 +24,6 @@ class MiniMaxIterativeDeepening:
         self.time_to_think = 60 * 100  # sec
 
     def time_is_up(self):
-        # return
         return (time.time() - self.st) > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
@@ -121,14 +121,14 @@ class MiniMaxIterativeDeepening:
             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
                 t, depth, self.nodes, int(self.nodes / move_time),
                 int(1000 * self.best_val),
-                self.best_move, self.root_moves,
+                self.best_move, self.root_moves ,
                 str(chess.pgn.Game().from_board(board)).split("\n\n")[1]))
         self.last_time_info_printed = time.time()
         sys.stdout.flush()
 
     def make_move(self, board, time_to_think=30 * 100):
 
-        self.st = time.time()
+
         self.time_to_think = time_to_think
 
         self.root_moves = [
@@ -139,6 +139,7 @@ class MiniMaxIterativeDeepening:
         self.st = time.time()
 
         while d <= DEPTH and not self.time_is_up():
+            self.st = time.time()
             self.max_depth = d
             self.alphabeta_minimax(board)
             d += 1

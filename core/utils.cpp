@@ -1574,7 +1574,7 @@ static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_torch;
 static PyObject *__pyx_n_s_translation_rules;
 static PyObject *__pyx_n_s_turn;
-static PyObject *__pyx_pf_4core_5utils_show_board(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_material_score, CYTHON_UNUSED PyObject *__pyx_v_position_score); /* proto */
+static PyObject *__pyx_pf_4core_5utils_show_board(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_board, CYTHON_UNUSED double __pyx_v_material_score, CYTHON_UNUSED double __pyx_v_position_score); /* proto */
 static PyObject *__pyx_pf_4core_5utils_2board_tensor(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_board); /* proto */
 static PyObject *__pyx_pf_4core_5utils_4board_material(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_board); /* proto */
 static PyObject *__pyx_pf_4core_5utils_6sample_game(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_game); /* proto */
@@ -1618,7 +1618,7 @@ static PyObject *__pyx_codeobj__21;
 /* "core/utils.pyx":37
  * 
  * 
- * def show_board(board, material_score, position_score):             # <<<<<<<<<<<<<<
+ * def show_board(board, double material_score, double position_score):             # <<<<<<<<<<<<<<
  *     return
  *     print(str(board).translate(translation_rules))
  */
@@ -1628,8 +1628,8 @@ static PyObject *__pyx_pw_4core_5utils_1show_board(PyObject *__pyx_self, PyObjec
 static PyMethodDef __pyx_mdef_4core_5utils_1show_board = {"show_board", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_4core_5utils_1show_board, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_4core_5utils_1show_board(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_board = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_material_score = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_position_score = 0;
+  CYTHON_UNUSED double __pyx_v_material_score;
+  CYTHON_UNUSED double __pyx_v_position_score;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("show_board (wrapper)", 0);
@@ -1678,8 +1678,8 @@ static PyObject *__pyx_pw_4core_5utils_1show_board(PyObject *__pyx_self, PyObjec
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_board = values[0];
-    __pyx_v_material_score = values[1];
-    __pyx_v_position_score = values[2];
+    __pyx_v_material_score = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_material_score == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L3_error)
+    __pyx_v_position_score = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_position_score == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -1696,14 +1696,14 @@ static PyObject *__pyx_pw_4core_5utils_1show_board(PyObject *__pyx_self, PyObjec
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4core_5utils_show_board(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_material_score, CYTHON_UNUSED PyObject *__pyx_v_position_score) {
+static PyObject *__pyx_pf_4core_5utils_show_board(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_board, CYTHON_UNUSED double __pyx_v_material_score, CYTHON_UNUSED double __pyx_v_position_score) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("show_board", 0);
 
   /* "core/utils.pyx":38
  * 
- * def show_board(board, material_score, position_score):
+ * def show_board(board, double material_score, double position_score):
  *     return             # <<<<<<<<<<<<<<
  *     print(str(board).translate(translation_rules))
  *     print("%.6s %.6s" % (int(material_score), position_score))
@@ -1715,7 +1715,7 @@ static PyObject *__pyx_pf_4core_5utils_show_board(CYTHON_UNUSED PyObject *__pyx_
   /* "core/utils.pyx":37
  * 
  * 
- * def show_board(board, material_score, position_score):             # <<<<<<<<<<<<<<
+ * def show_board(board, double material_score, double position_score):             # <<<<<<<<<<<<<<
  *     return
  *     print(str(board).translate(translation_rules))
  */
@@ -3753,7 +3753,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "core/utils.pyx":37
  * 
  * 
- * def show_board(board, material_score, position_score):             # <<<<<<<<<<<<<<
+ * def show_board(board, double material_score, double position_score):             # <<<<<<<<<<<<<<
  *     return
  *     print(str(board).translate(translation_rules))
  */
@@ -4916,7 +4916,7 @@ if (!__Pyx_RefNanny) {
   /* "core/utils.pyx":37
  * 
  * 
- * def show_board(board, material_score, position_score):             # <<<<<<<<<<<<<<
+ * def show_board(board, double material_score, double position_score):             # <<<<<<<<<<<<<<
  *     return
  *     print(str(board).translate(translation_rules))
  */

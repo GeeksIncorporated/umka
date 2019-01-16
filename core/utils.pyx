@@ -34,7 +34,7 @@ PIECES_TENSORS = {
 }
 
 
-def show_board(board, material_score, position_score):
+def show_board(board, double material_score, double position_score):
     return
     print(str(board).translate(translation_rules))
     print("%.6s %.6s" % (int(material_score), position_score))
