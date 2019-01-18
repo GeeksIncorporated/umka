@@ -74,9 +74,9 @@ def sample_game(game):
     samples = []
     main_line = list(game.main_line())
     for move in main_line:
-        # if not board.turn:
-        #     board.push(move)
-        #     continue
+        if not board.turn:
+            board.push(move)
+            continue
         position = board_tensor(board=board)
         samples.append(position)
         board.push(move)
@@ -127,15 +127,19 @@ def annotated_sample_generator_labels_in_csv():
 def game_labels_from_coments(game):
     var = game.variations[0]
     labels = []
-    for m in game.main_line():
+    for i, _ in enumerate(game.main_line()):
         try:
-            val = var.comment.split("/")[0]
-            val = re.sub('M(\-?)\d+', '1000', val)
-            labels.append(float(val)/10)
+            if i % 2 == 0:
+                val = var.comment.split("/")[0]
+                val = re.sub('M(\-?)\d+', '1000', val)
+                labels.append(float(val)/10)
+            if not var.variations:
+                break
             var = var.variations[0]
         except:
             pass
     return labels
+
 
 def annotated_sample_generator_engine960():
     """
