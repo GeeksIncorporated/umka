@@ -1,10 +1,11 @@
 import csv
-import sys
-import time
+import os
+import re
 
 import chess
-import torch
 from chess.pgn import read_game
+
+from settings import PROJECT_ROOT_DIR
 
 pieces_ascii = "KQRBNPkqrbnp"
 pieces_unicode = "♚♛♜♝♞♟♔♕♖♗♘♙"
@@ -73,9 +74,9 @@ def sample_game(game):
     samples = []
     main_line = list(game.main_line())
     for move in main_line:
-        if not board.turn:
-            board.push(move)
-            continue
+        # if not board.turn:
+        #     board.push(move)
+        #     continue
         position = board_tensor(board=board)
         samples.append(position)
         board.push(move)
@@ -90,7 +91,7 @@ def load_labels():
     return game_labels
 
 
-def annotated_sample_generator():
+def annotated_sample_generator_labels_in_csv():
     """
     Generates annotated training data. Uses games.pgn games dataset.
     Each game has an event number. Labels extracted from labels.cs
@@ -123,9 +124,51 @@ def annotated_sample_generator():
             pass
 
 
+def game_labels_from_coments(game):
+    var = game.variations[0]
+    labels = []
+    for m in game.main_line():
+        try:
+            val = var.comment.split("/")[0]
+            val = re.sub('M(\-?)\d+', '1000', val)
+            labels.append(float(val)/10)
+            var = var.variations[0]
+        except:
+            pass
+    return labels
+
+def annotated_sample_generator_engine960():
+    """
+    Generates annotated training data. Uses engines960.pgn games dataset.
+    Generator yields a pair of (samples, labels) tensors
+    where samples represents game positions like the following:
+    [[-0.5,-0.3,-0.35,-0.8,-1.0,-0.35,-0.3,-0.5,
+     -0.1,-0.1, -0.1,-0.1,-0.1, -0.1,-0.1,-0.1,
+        0,   0,   0,    0,   0,    0,   0,   0,
+     ...
+     0.1, 0.1,  0.1, 0.1, 0.1,  0.1, 0.1, 0.1,
+     0.5, 0.3, 0.35, 0.8, 1.0, 0.35, 0.3, 0.5],[..]..]
+    and labels of the form:
+    [0.24, 0.18, ..]
+    """
+    pgn = open(os.path.join(PROJECT_ROOT_DIR, "data/pgn/engines960.pgn"))
+    # game_labels = load_labels()
+    while True:
+        try:
+            game = read_game(pgn)
+            if not game:
+                break
+            labels = game_labels_from_coments(game)
+            samples = sample_game(game)
+            yield samples, labels
+        except:
+            pass
+
+
 def position_needs_attention(board, move):
     # return False
     return any(
         [board.is_capture(move),
          board.is_castling(move),
          board.is_check()])
+
