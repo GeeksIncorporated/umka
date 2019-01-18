@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+import sys
 
 import chess
 from chess.pgn import read_game
@@ -131,13 +132,13 @@ def game_labels_from_coments(game):
         try:
             if i % 2 == 0:
                 val = var.comment.split("/")[0]
-                val = re.sub('M(\-?)\d+', '1000', val)
+                val = re.sub(r"M(\-?)\d+", "1000", val)
                 labels.append(float(val)/10)
             if not var.variations:
                 break
             var = var.variations[0]
         except:
-            pass
+            print("===>", sys.exc_info())
     return labels
 
 
