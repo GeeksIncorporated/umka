@@ -125,15 +125,21 @@ def annotated_sample_generator_labels_in_csv():
             pass
 
 
+PATT1 = re.compile(r"M(\-?)\d+")
+PATT2 = re.compile('(.\d+.\d+)\/\d+')
+
+
 def game_labels_from_coments(game):
     var = game.variations[0]
     labels = []
     for i, _ in enumerate(game.main_line()):
         try:
             if i % 2 == 0:
-                val = var.comment.split("/")[0]
-                val = re.sub(r"M(\-?)\d+", "1000", val)
-                labels.append(float(val)/10)
+                value = var.comment
+                if 'book' not in value:
+                    val = PATT1.sub("100.0", value)
+                    val = PATT2.findall(val)[0]
+                labels.append(float(val) / 10)
             if not var.variations:
                 break
             var = var.variations[0]

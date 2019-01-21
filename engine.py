@@ -16,7 +16,7 @@ class UmkaEngine(Engine):
     def __init__(self):
         self.board = None
         self.time_to_think = 1200 * 100
-        self.path = os.path.join("core/models/model.pth.tar")
+        self.path = os.path.join("core/models/model.pth1.tar")
 
     def on_line_received(self, l):
         # super(UmkaEngine, self).on_line_received(buf)
