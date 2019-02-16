@@ -1,12 +1,12 @@
 import time
 import unittest
-
 import chess
-from chess.pgn import Game
 
-from core.minimax import MiniMax
+from chess.pgn import Game
+from core.minimax_cython import MiniMaxCython
 from core.umka import Umka
 from settings import PATH_TO_MODEL, DEPTH
+
 import PyMoveGen as board_c
 
 
@@ -28,9 +28,9 @@ class MyTestCase(unittest.TestCase):
 
     def test_board_perfomance(self):
         board = chess.Board()
-        brain = MiniMax(self.umka)
+        brain = MiniMaxCython(self.umka)
         while not board.is_game_over():
-            move = brain.run(board)
+            move = brain.make_move(board)
             board.push(move)
             # print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
 
@@ -45,8 +45,6 @@ class MyTestCase(unittest.TestCase):
             board1.push_uci(m)
             res += map(str, board1.legal_moves)
         print(len(res), time.time() - st)
-
-
 
         st = time.time()
         res = []
