@@ -6,7 +6,7 @@ import time
 import chess
 from chess import Move
 from chess.polyglot import zobrist_hash
-from settings import DEPTH
+from settings import DEPTH, CHECKMATE
 
 INF = 10000
 
@@ -47,6 +47,9 @@ class MiniMaxIterativeDeepening:
                             self._minimax(board, depth + 1, alpha, beta, False))
                 board.pop()
 
+                # if(abs(value) == CHECKMATE):
+                #     break
+
                 if value <= alpha:
                     break
 
@@ -60,6 +63,9 @@ class MiniMaxIterativeDeepening:
                 value = max(value,
                             self._minimax(board, depth + 1, alpha, beta, True))
                 board.pop()
+                #
+                # if(abs(value) == CHECKMATE):
+                #     break
 
                 if value >= beta:
                     break

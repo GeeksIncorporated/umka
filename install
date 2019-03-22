@@ -1,0 +1,11 @@
+install:
+
+cd umka
+virtualenv -p python3.5 venv
+source venv/bin/activate
+pip install -r requirements.txt
+python train_umka.py 
+
+run:
+xboard -debugMode true -cp -fcp "python engine.py"
+tail -f xboard.debug
