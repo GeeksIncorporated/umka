@@ -6,7 +6,7 @@ import time
 import chess
 from chess import Move
 from chess.polyglot import zobrist_hash
-from settings import DEPTH
+from settings import DEPTH, CHECKMATE
 
 INF = 10000
 
@@ -87,7 +87,7 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
-                if self.best_val == INF:
+                if abs(self.best_val) >= CHECKMATE:
                     break
                 self.print_info(depth, board)
         else:
@@ -105,7 +105,7 @@ class MiniMaxIterativeDeepening:
                 bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
-                if self.best_val == -INF:
+                if abs(self.best_val) >= CHECKMATE:
                     break
                 self.print_info(depth, board)
 
@@ -141,6 +141,9 @@ class MiniMaxIterativeDeepening:
             self.alphabeta_minimax(board)
             d += 1
             print("---------------------->", self.best_move)
+            if abs(self.best_val) >= CHECKMATE:
+                break
+
         return self.best_move
 
 
