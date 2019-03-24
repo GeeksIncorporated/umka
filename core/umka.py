@@ -180,8 +180,56 @@ class Umka:
         else:
             if not maximize:
                 position_score = -position_score
+            # print(' mat sc: {}'.format(material_score))
+            # print(' pos sc: {}'.format(position_score))
             score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
         show_board(board, material_score, position_score)
         return score
+
+    def multiple_evaluate(self, boards, depth, maximize):
+        material_scores = []
+        position_scores = []
+        scores = []
+
+        material_scores.append(10 * board_material(boards[0]))
+        position_scores.append(0)
+        scores.append(0)
+        A = board_tensor(board=boards[0])
+        samples = torch.Tensor(A)
+
+        print('i: {}'.format(0))
+
+        for i, board in enumerate(boards):
+            if(i!=0):
+                print('i: {}'.format(i))
+                material_scores.append(10 * board_material(board))
+                position_scores.append(0)
+                scores.append(0)
+                A = board_tensor(board=board)
+                samples.add(torch.Tensor(A))
+                # print('A: {}'.format(A))
+                # print('samples: {}'.format(samples))
+
+        input = torch.Tensor(samples).to(DEVICE)
+        evaluation = self.model(input)
+        position_scores = evaluation.item()
+
+        print(' sc : {}'.format(scores))
+        print(' mat sc: {}'.format(material_scores))
+        print(' pos sc: {}'.format(position_scores))
+
+        # self.prev_material_score = int(material_score)
+        for i, board in enumerate(boards):
+            if board.is_checkmate():
+                scores[i] = CHECKMATE
+            else:
+                if not maximize:
+                    position_score = -position_scores
+
+                scores[i] = material_scores[i] + position_scores[i]
+                # score /= float(depth)
+            # print(material_score, position_score)
+            show_board(board, material_scores[i], position_scores[i])
+        return scores
