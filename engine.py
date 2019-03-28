@@ -7,7 +7,8 @@ import sys
 import chess
 from chess.uci import Engine
 
-from core.minimax_id import MiniMaxIterativeDeepening
+# from core.minimax_id import MiniMaxIterativeDeepening
+from core.minimax_id_rand_walk import MiniMaxIterativeDeepening
 from core.umka import Umka
 
 

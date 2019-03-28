@@ -2,7 +2,8 @@ import pprint
 import time
 import chess.svg
 from chess.pgn import Game
-from core.minimax_id import MiniMaxIterativeDeepening
+# from core.minimax_id import MiniMaxIterativeDeepening
+from core.minimax_id_rand_walk import MiniMaxIterativeDeepening
 from core.umka import Umka
 
 

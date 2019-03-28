@@ -2,7 +2,7 @@ import bisect
 import itertools
 import sys
 import time
-
+import random
 import chess
 from chess import Move
 from chess.polyglot import zobrist_hash
@@ -73,13 +73,72 @@ class MiniMaxIterativeDeepening:
                 alpha = max(alpha, value)
         return value
 
+    def _minimax_random_walk(self, board, depth, alpha_beta, maximize):
+
+        self.nodes += 1
+
+        if zobrist_hash(board) in self.cache:
+            return self.cache[zobrist_hash(board)]
+
+        if depth >= self.max_depth or len(list(board.legal_moves))==0:
+            score = self.umka.evaluate(board, depth, maximize)
+            self.print_info(depth, board)
+            self.cache[zobrist_hash(board)] = score
+            return score
+
+        if maximize:
+            value = INF
+            move = random.choice(list(board.legal_moves))
+            board.push(move)
+            value = min(value,
+                        self._minimax_random_walk(board, depth + 1, alpha_beta, False))
+            board.pop()
+            # if value <= alpha_beta[0]:
+            #     return value
+            alpha_beta[1] = min(alpha_beta[1], value)
+        else:
+            value = -INF
+            move = random.choice(list(board.legal_moves))
+            board.push(move)
+            value = max(value,
+                        self._minimax_random_walk(board, depth + 1, alpha_beta, True))
+            board.pop()
+            # if value >= alpha_beta[1]:
+            #     return value
+            alpha_beta[0] = max(alpha_beta[0], value)
+        return value
+
+
     def alphabeta_minimax(self, board, depth=0):
         self.nodes = 0
         self.cache = {}
 
         beta = INF
+        best_val = -INF
+        alpha_beta = [-INF, INF]
+        # print("Initial prunning")
+        # print("ALPHA = {} & BETA = {}".format(alpha_beta[0],alpha_beta[1]))
         if board.turn:
-            best_val = -INF
+            for rm in list(self.root_moves):
+                self.root_moves.remove(rm)
+                board.push(rm.move)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax_random_walk(
+                        board, depth + 1, alpha_beta, True)
+                board.pop()
+                rm.value = -value
+                bisect.insort_right(self.root_moves, rm)
+                self.best_move = self.root_moves[0].move
+                self.best_val = self.root_moves[0].value
+                if abs(self.best_val) >= CHECKMATE:
+                    break
+                self.print_info(depth, board)
+            best_val = alpha_beta[0]
+            beta = alpha_beta[1]
+            print("End of Initial prunning")
+            print("ALPHA = {} & BETA = {}".format(alpha_beta[0], alpha_beta[1]))
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
@@ -89,15 +148,35 @@ class MiniMaxIterativeDeepening:
                     value = self._minimax(
                         board, depth + 1, best_val, beta, True)
                 board.pop()
-                rm.value = -value
+                rm.value = max(-value, rm.value)
                 bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
                 if abs(self.best_val) >= CHECKMATE:
                     break
                 self.print_info(depth, board)
+
         else:
-            best_val = -INF
+            for rm in list(self.root_moves):
+                self.root_moves.remove(rm)
+                board.push(rm.move)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax_random_walk(
+                        board, depth + 1, alpha_beta, False)
+                board.pop()
+                rm.value = value
+                bisect.insort_right(self.root_moves, rm)
+                self.best_move = self.root_moves[0].move
+                self.best_val = self.root_moves[0].value
+                if abs(self.best_val) >= CHECKMATE:
+                    break
+                self.print_info(depth, board)
+            best_val = alpha_beta[0]
+            beta = alpha_beta[1]
+            print("End of Initial prunning")
+            print("ALPHA = {} & BETA = {}".format(alpha_beta[0], alpha_beta[1]))
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
@@ -107,7 +186,7 @@ class MiniMaxIterativeDeepening:
                     value = self._minimax(
                         board, depth + 1, best_val, beta, False)
                 board.pop()
-                rm.value = value
+                rm.value = min(value, rm.value)
                 bisect.insort_right(self.root_moves, rm)
                 self.best_move = self.root_moves[0].move
                 self.best_val = self.root_moves[0].value
