@@ -61,7 +61,8 @@ def board_material(board):
     :return: score in centipawns
     """
     res = 0
-    for c in str(board):
+    bs = str(board)
+    for c in bs:
         if c == '\n':
             continue
         elif c == ' ':

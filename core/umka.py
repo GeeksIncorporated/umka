@@ -1,5 +1,6 @@
 import datetime
 import os
+import random
 import shutil
 import sys
 from random import randint
@@ -129,10 +130,39 @@ class Umka:
         if board.is_checkmate():
             score = CHECKMATE
         else:
-            if not maximize:
-                position_score = -position_score
+            # if not maximize:
+            #     position_score = -position_score
             score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
         show_board(board, material_score, position_score)
+        return score
+
+    def evaluate_bulk(self, boards, depth, maximize):
+        material_scores = []
+        for board in boards:
+            material_scores.append(10 * board_material(board))
+
+        if AI_ENABLED:
+            samples = []
+            for board in boards:
+                sample = board_tensor(board=board)
+                samples.append(sample)
+
+            input = torch.FloatTensor(samples).to(DEVICE)
+            position_score = self.model(input)
+        else:
+            position_score = torch.FloatTensor([0])
+        # self.prev_material_score = int(material_score)
+
+        if board.is_checkmate():
+            score = CHECKMATE
+        else:
+            if maximize:
+                score = max(material_scores) + position_score.max().item()
+            else:
+                score = min(material_scores) + position_score.min().item()
+            # score /= float(depth)
+        # print(material_score, position_score)
+        # show_board(board, score, position_score)
         return score

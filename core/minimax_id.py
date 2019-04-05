@@ -2,6 +2,7 @@ import bisect
 import itertools
 import sys
 import time
+from copy import copy
 
 import chess
 from chess import Move
@@ -21,21 +22,32 @@ class MiniMaxIterativeDeepening:
         self.time_to_think = 60 * 100  # sec
 
     def time_is_up(self):
-        # return
+        return
         return (time.time() - self.st) > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
 
-        self.nodes += 1
-
         if zobrist_hash(board) in self.cache:
             return self.cache[zobrist_hash(board)]
 
-        if depth >= self.max_depth:
-            score = self.umka.evaluate(board, depth, maximize)
-            self.print_info(depth, board)
+        if depth >= self.max_depth - 1:
+            boards = []
+            for move in board.legal_moves:
+                self.nodes += 1
+                board.push(move)
+                boards.append(copy(board))
+                board.pop()
+
+            score = self.umka.evaluate_bulk(boards, depth, not maximize)
+            self.print_info(depth + 1, board)
             self.cache[zobrist_hash(board)] = score
             return score
+
+        # if depth >= self.max_depth:
+        #     score = self.umka.evaluate(board, depth, maximize)
+        #     self.print_info(depth, board)
+        #     self.cache[zobrist_hash(board)] = score
+        #     return score
 
         if maximize:
             value = INF
