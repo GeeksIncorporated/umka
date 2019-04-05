@@ -11,7 +11,6 @@ def solve(fen):
     brain = MiniMaxIterativeDeepening(umka)
 
     board = chess.Board(fen)
-
     while not board.is_game_over():
         move = brain.make_move(board, time_to_think=15*100)
         print(move, brain.best_val, brain.best_move, brain.root_moves)
@@ -27,10 +26,12 @@ if __name__ == "__main__":
         for i in range(0, len(lines), 5):
             desc = lines[i]
             fen = lines[i+1]
+            print(fen)
             res = lines[i+2]
             st = time.time()
             sol = solve(fen)
             print("SOLVES:", sol)
             print("EXPECT:", res)
             print(time.time() - st)
+            break
             time.sleep(5)
