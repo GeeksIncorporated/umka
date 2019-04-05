@@ -25,6 +25,7 @@ class UmkaEngine(Engine):
         # super(UmkaEngine, self).on_line_received(buf)
 
         if l == 'xboard':
+            self.xboard = True
             print('feature myname="Umka" setboard=1 done=1 sigint=0 sigterm=0')
             print('done')
 
@@ -91,6 +92,8 @@ class UmkaEngine(Engine):
         elif l.startswith('level'):
             pass
         elif l.startswith('go'):
+            if self.xboard:
+                return
             if not self.umka:
                 self.newgame()
             m = self.make_move()
