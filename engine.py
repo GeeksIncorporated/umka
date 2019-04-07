@@ -14,6 +14,7 @@ from core.umka import Umka
 class UmkaEngine(Engine):
 
     def __init__(self):
+        self.xboard = None
         self.umka = None
         self.time_to_think = 1200 * 100
         self.path = os.path.join("core/models/model.pth1.tar")

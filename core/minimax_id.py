@@ -26,9 +26,9 @@ class MiniMaxIterativeDeepening:
         return (time.time() - self.st) > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
-
-        if zobrist_hash(board) in self.cache:
-            return self.cache[zobrist_hash(board)]
+        zh = zobrist_hash(board)
+        if zh in self.cache:
+            return self.cache[zh]
 
         if depth >= self.max_depth - 1:
             boards = []
@@ -37,26 +37,24 @@ class MiniMaxIterativeDeepening:
                 board.push(move)
                 boards.append(copy(board))
                 board.pop()
+            if len(boards) == 0:
+                if board.is_stalemate():
+                    return 0
+                elif board.is_checkmate():
+                    return CHECKMATE
 
             score = self.umka.evaluate_bulk(boards, depth, not maximize)
             self.print_info(depth + 1, board)
             self.cache[zobrist_hash(board)] = score
             return score
 
-        # if depth >= self.max_depth:
-        #     score = self.umka.evaluate(board, depth, maximize)
-        #     self.print_info(depth, board)
-        #     self.cache[zobrist_hash(board)] = score
-        #     return score
-
         if maximize:
             value = INF
             for move in board.legal_moves:
-                # if self.time_is_up():
-                #     return -INF
                 board.push(move)
                 value = min(value,
-                            self._minimax(board, depth + 1, alpha, beta, False))
+                            self._minimax(
+                                board, depth + 1, alpha, beta, False))
                 board.pop()
 
                 if value <= alpha:
@@ -66,11 +64,10 @@ class MiniMaxIterativeDeepening:
         else:
             value = -INF
             for move in board.legal_moves:
-                # if self.time_is_up():
-                #     return INF
                 board.push(move)
                 value = max(value,
-                            self._minimax(board, depth + 1, alpha, beta, True))
+                            self._minimax(
+                                board, depth + 1, alpha, beta, True))
                 board.pop()
 
                 if value >= beta:
@@ -101,7 +98,7 @@ class MiniMaxIterativeDeepening:
                 self.best_val = self.root_moves[0].value
                 if abs(self.best_val) >= CHECKMATE:
                     break
-                self.print_info(depth, board)
+                # self.print_info(depth, board)
         else:
             best_val = -INF
             for rm in list(self.root_moves):
@@ -119,14 +116,14 @@ class MiniMaxIterativeDeepening:
                 self.best_val = self.root_moves[0].value
                 if abs(self.best_val) >= CHECKMATE:
                     break
-                self.print_info(depth, board)
+                # self.print_info(depth, board)
 
     def print_info(self, depth, board):
         if (time.time() - self.last_time_info_printed) < 2:
             return
         move_time = time.time() - self.st
         t = int(move_time) * 1000
-
+        print(board)
         print(
             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
                 t, depth, self.nodes, int(self.nodes / move_time),
@@ -140,21 +137,19 @@ class MiniMaxIterativeDeepening:
 
         self.st = time.time()
         self.time_to_think = time_to_think
-
         self.root_moves = [
             SortableMove(m) for m in itertools.chain(
             board.legal_moves)]
 
         d = 1
-        self.st = time.time()
 
-        while d <= DEPTH and not self.time_is_up():
-            self.max_depth = d
-            self.alphabeta_minimax(board)
-            d += 1
-            print("---------------------->", self.best_move)
-            if abs(self.best_val) >= CHECKMATE:
-                break
+        # while d <= DEPTH and not self.time_is_up():
+        self.max_depth = DEPTH
+        self.alphabeta_minimax(board)
+        # d += 1
+        print("---------------------->", self.best_move)
+        # if abs(self.best_val) >= CHECKMATE:
+        #     break
 
         return self.best_move
 

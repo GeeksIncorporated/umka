@@ -34,4 +34,4 @@ if __name__ == "__main__":
             print("EXPECT:", res)
             print(time.time() - st)
             break
-            time.sleep(5)
+            time.sleep(10)

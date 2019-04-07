@@ -1,4 +1,4 @@
-token: "XXXXXXX-umka-lichess-access-key-XXXXXX"    # lichess OAuth2 Token
+token: "h2DcxAPhFXy5di5g"    # lichess OAuth2 Token
 url: "https://lichess.org/"  # lichess base URL
 
 engine:                      # engine settings
@@ -43,7 +43,7 @@ abort_time: 20               # time to abort a game in seconds when there is no 
 fake_think_time: false       # artificially slow down the bot to pretend like it's thinking
 
 challenge:                   # incoming challenges
-  concurrency: 1             # number of games to play simultaneously
+  concurrency: 2             # number of games to play simultaneously
   sort_by: "best"            # possible values: "best", "first"
   accept_bot: false          # accepts challenges coming from other bots
   max_increment: 180         # maximum amount of increment to accaept a challenge. the max is 180. set to 0 for no increment
@@ -60,12 +60,12 @@ challenge:                   # incoming challenges
 #   - racingKings
 #   - threeCheck
   time_controls:             # time controls to accept
-#   - ultraBullet
+    - ultraBullet
     - bullet
     - blitz
     - rapid
-#   - classical
-#   - correspondence
+    - classical
+    - correspondence
   modes:                     # game modes to accept
     - casual                 # unrated games
     - rated                  # rated games - must comment if the engine doesn't try to win

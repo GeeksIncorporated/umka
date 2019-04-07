@@ -135,7 +135,7 @@ class Umka:
             score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
-        show_board(board, material_score, position_score)
+        # show_board(board, material_score, position_score)
         return score
 
     def evaluate_bulk(self, boards, depth, maximize):
@@ -148,12 +148,12 @@ class Umka:
             for board in boards:
                 sample = board_tensor(board=board)
                 samples.append(sample)
-
+            if not samples:
+                return 0
             input = torch.FloatTensor(samples).to(DEVICE)
             position_score = self.model(input)
         else:
             position_score = torch.FloatTensor([0])
-        # self.prev_material_score = int(material_score)
 
         if board.is_checkmate():
             score = CHECKMATE
