@@ -1,16 +1,17 @@
 import pprint
 import time
 import chess.svg
-from chess.pgn import Game
 from core.minimax_id import MiniMaxIterativeDeepening
 from core.umka import Umka
+import chess
 
 
 def solve(fen):
     umka = Umka(path="core/models/model.pth.tar", training_enabled=False)
     brain = MiniMaxIterativeDeepening(umka)
-
     board = chess.Board(fen)
+    print(board)
+    print(board.legal_moves)
     while not board.is_game_over():
         move = brain.make_move(board, time_to_think=15*100)
         print(move, brain.best_val, brain.best_move, brain.root_moves)
@@ -35,3 +36,4 @@ if __name__ == "__main__":
             print(time.time() - st)
             break
             time.sleep(10)
+

@@ -17,9 +17,6 @@ class MiniMaxParallel:
     def play(self, board, depth, alpha, beta, maximize, need_attention, d):
         self.nodes += 1
 
-        # if zobrist_hash(board) in self.cache:
-        #     return self.cache[zobrist_hash(board)]
-
         if need_attention and d < MAX_DEPTH:
             depth -= 1
 

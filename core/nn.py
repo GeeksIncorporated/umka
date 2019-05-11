@@ -3,7 +3,7 @@ import torch.nn as nn
 INPUT_SIZE = 64 * 12
 HIDDEN_SIZE = 2048
 OUTPUT_SIZE = 1
-LEARING_RATE = 0.001
+LEARNING_RATE = 0.001
 
 
 class TrainingDisabledOnModel():
@@ -24,7 +24,7 @@ class UmkaNeuralNet(nn.Module):
         self.layer3 = nn.Linear(hidden_size, hidden_size)
         self.layer4 = nn.Linear(hidden_size, hidden_size)
         self.layer5 = nn.Linear(hidden_size, output_size)
-        self.relu = nn.ReLU(LEARING_RATE)
+        self.relu = nn.ReLU(LEARNING_RATE)
 
     def forward(self, x):
         output = self.layer1(x)

@@ -1,6 +1,5 @@
 import datetime
 import os
-import random
 import shutil
 import sys
 from random import randint
@@ -8,7 +7,7 @@ import torch
 from chess.polyglot import open_reader
 
 from core.nn import UmkaNeuralNet, INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, \
-    LEARING_RATE, TrainingDisabledOnModel
+    LEARNING_RATE, TrainingDisabledOnModel
 from core.utils import board_tensor, show_board, board_material
 from settings import DEVICE, ENABLE_OPENING_BOOK, AI_ENABLED, CHECKMATE, \
     PROJECT_ROOT_DIR
@@ -27,7 +26,7 @@ class Umka:
         self.model.share_memory()
         self.optimizer = torch.optim.SGD(
             self.model.parameters(),
-            lr=LEARING_RATE,
+            lr=LEARNING_RATE,
             momentum=0.7,
             nesterov=True)
 
@@ -117,7 +116,7 @@ class Umka:
                 return None
 
     def evaluate(self, board, depth, maximize):
-        material_score = 10 * board_material(board)
+        material_score = 0 #10 * board_material(board)
 
         if AI_ENABLED:
             sample = board_tensor(board=board)
@@ -141,7 +140,9 @@ class Umka:
     def evaluate_bulk(self, boards, depth, maximize):
         material_scores = []
         for board in boards:
-            material_scores.append(10 * board_material(board))
+            material_scores.append(
+                10 * board_material(board)
+            )
 
         if AI_ENABLED:
             samples = []
@@ -158,11 +159,13 @@ class Umka:
         if board.is_checkmate():
             score = CHECKMATE
         else:
+
             if maximize:
                 score = max(material_scores) + position_score.max().item()
             else:
                 score = min(material_scores) + position_score.min().item()
             # score /= float(depth)
+
         # print(material_score, position_score)
         # show_board(board, score, position_score)
         return score
