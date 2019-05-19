@@ -38,12 +38,12 @@ PIECES_TENSORS = {
 
 
 def show_board(board, material_score, position_score):
-    return
+    # return
     print(str(board).translate(translation_rules))
     print("%.6s %.6s" % (int(material_score), position_score))
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
-    time.sleep(0.01)
     sys.stdout.flush()
+    time.sleep(10)
 
 
 def board_tensor(board):

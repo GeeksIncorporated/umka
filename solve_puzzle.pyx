@@ -33,7 +33,7 @@ def solve(fen):
 if __name__ == "__main__":
     with open("data/puzzles/mate_in_2") as file:
         lines = file.readlines()
-        for i in range(0, len(lines), 5)[:2]:
+        for i in range(0, len(lines), 5)[:1]:
             desc = lines[i]
             fen = lines[i+1]
             print(fen)
@@ -43,6 +43,6 @@ if __name__ == "__main__":
             print("SOLVES:", sol)
             print("EXPECT:", res)
             print(time.time() - st)
-            # break
-            # time.sleep(10)
+            break
+            time.sleep(10)
 

@@ -171,9 +171,7 @@ cdef class Umka:
             if maximize:
                 score = max(material_scores) + position_score.max().item()
             else:
-                score = min(material_scores) + position_score.min().item()
+                score = min(material_scores) - position_score.min().item()
             # score /= float(depth)
-
-        # print(material_score, position_score)
-        # show_board(board, score, position_score)
+        show_board(board, score, position_score)
         return score

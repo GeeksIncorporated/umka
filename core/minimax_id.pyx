@@ -37,8 +37,8 @@ cdef class MiniMaxIterativeDeepening:
         self.time_to_think = 60 * 100  # sec
 
     def time_is_up(self):
-        # return
-        return (time.time() - self.st) > self.time_to_think
+        return
+        # return (time.time() - self.st) > self.time_to_think
 
     def _minimax(self, board, depth, alpha, beta, maximize):
         zh = zobrist_hash(board)
@@ -68,8 +68,6 @@ cdef class MiniMaxIterativeDeepening:
         if maximize:
             value = INF
             for move in board.legal_moves:
-                # if self.time_is_up():
-                #     return -INF
                 board.push(move)
                 value = min(value,
                             self._minimax(
@@ -162,18 +160,9 @@ cdef class MiniMaxIterativeDeepening:
         self.root_moves = [
             SortableMove(m) for m in itertools.chain(
             board.legal_moves)]
-
-        d = 1
-        self.st = time.time()
-
-        while d <= DEPTH and not self.time_is_up():
-            self.max_depth = d
-            self.alphabeta_minimax(board)
-            d += 1
-            print("---------------------->", self.best_move)
-            if abs(self.best_val) >= CHECKMATE:
-                break
-
+        #print("Root move", self.root_moves)
+        self.max_depth = DEPTH
+        self.alphabeta_minimax(board)
         return self.best_move
 
 

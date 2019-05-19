@@ -1874,7 +1874,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * if __name__ == "__main__":
  *     with open("data/puzzles/mate_in_2") as file:             # <<<<<<<<<<<<<<
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  */
   __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_data_puzzles_mate_in_2); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
@@ -1883,11 +1883,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "solve_puzzle.pyx":36
  *     with open("data/puzzles/mate_in_2") as file:
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:             # <<<<<<<<<<<<<<
+ *         for i in range(0, len(lines), 5)[:1]:             # <<<<<<<<<<<<<<
  *             desc = lines[i]
  *             fen = lines[i+1]
  */
-  __pyx_slice__6 = PySlice_New(Py_None, __pyx_int_2, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_slice__6 = PySlice_New(Py_None, __pyx_int_1, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__6);
   __Pyx_GIVEREF(__pyx_slice__6);
 
@@ -1896,7 +1896,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * if __name__ == "__main__":
  *     with open("data/puzzles/mate_in_2") as file:             # <<<<<<<<<<<<<<
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  */
   __pyx_tuple__7 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
@@ -2332,7 +2332,7 @@ if (!__Pyx_RefNanny) {
  * if __name__ == "__main__":
  *     with open("data/puzzles/mate_in_2") as file:             # <<<<<<<<<<<<<<
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  */
     /*with:*/ {
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
@@ -2363,7 +2363,7 @@ if (!__Pyx_RefNanny) {
  * if __name__ == "__main__":
  *     with open("data/puzzles/mate_in_2") as file:
  *         lines = file.readlines()             # <<<<<<<<<<<<<<
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  *             desc = lines[i]
  */
             __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_file); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L7_error)
@@ -2380,7 +2380,7 @@ if (!__Pyx_RefNanny) {
             /* "solve_puzzle.pyx":36
  *     with open("data/puzzles/mate_in_2") as file:
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:             # <<<<<<<<<<<<<<
+ *         for i in range(0, len(lines), 5)[:1]:             # <<<<<<<<<<<<<<
  *             desc = lines[i]
  *             fen = lines[i+1]
  */
@@ -2404,7 +2404,7 @@ if (!__Pyx_RefNanny) {
             __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_2, 0, 2, NULL, NULL, &__pyx_slice__6, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_2, 0, 1, NULL, NULL, &__pyx_slice__6, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
@@ -2452,7 +2452,7 @@ if (!__Pyx_RefNanny) {
 
               /* "solve_puzzle.pyx":37
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  *             desc = lines[i]             # <<<<<<<<<<<<<<
  *             fen = lines[i+1]
  *             print(fen)
@@ -2469,7 +2469,7 @@ if (!__Pyx_RefNanny) {
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
               /* "solve_puzzle.pyx":38
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  *             desc = lines[i]
  *             fen = lines[i+1]             # <<<<<<<<<<<<<<
  *             print(fen)
@@ -2611,7 +2611,7 @@ if (!__Pyx_RefNanny) {
  *             print("SOLVES:", sol)
  *             print("EXPECT:", res)             # <<<<<<<<<<<<<<
  *             print(time.time() - st)
- *             # break
+ *             break
  */
               __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_res); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_5);
@@ -2632,8 +2632,8 @@ if (!__Pyx_RefNanny) {
  *             print("SOLVES:", sol)
  *             print("EXPECT:", res)
  *             print(time.time() - st)             # <<<<<<<<<<<<<<
- *             # break
- *             # time.sleep(10)
+ *             break
+ *             time.sleep(10)
  */
               __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_1);
@@ -2666,14 +2666,24 @@ if (!__Pyx_RefNanny) {
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
+              /* "solve_puzzle.pyx":46
+ *             print("EXPECT:", res)
+ *             print(time.time() - st)
+ *             break             # <<<<<<<<<<<<<<
+ *             time.sleep(10)
+ * 
+ */
+              goto __pyx_L14_break;
+
               /* "solve_puzzle.pyx":36
  *     with open("data/puzzles/mate_in_2") as file:
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:             # <<<<<<<<<<<<<<
+ *         for i in range(0, len(lines), 5)[:1]:             # <<<<<<<<<<<<<<
  *             desc = lines[i]
  *             fen = lines[i+1]
  */
             }
+            __pyx_L14_break:;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
             /* "solve_puzzle.pyx":34
@@ -2681,7 +2691,7 @@ if (!__Pyx_RefNanny) {
  * if __name__ == "__main__":
  *     with open("data/puzzles/mate_in_2") as file:             # <<<<<<<<<<<<<<
  *         lines = file.readlines()
- *         for i in range(0, len(lines), 5)[:2]:
+ *         for i in range(0, len(lines), 5)[:1]:
  */
           }
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
