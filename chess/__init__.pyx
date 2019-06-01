@@ -218,7 +218,8 @@ def square_mirror(square):
 SQUARES_180 = [square_mirror(sq) for sq in SQUARES]
 
 cdef unsigned long long BB_EMPTY = 0
-cdef unsigned long long BB_ALL = 0xffffffffffffffff
+BB_ALL = 0xffffffffffffffff
+
 
 BB_SQUARES = [
     BB_A1, BB_B1, BB_C1, BB_D1, BB_E1, BB_F1, BB_G1, BB_H1,

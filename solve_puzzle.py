@@ -16,7 +16,6 @@ def solve(fen):
         move = brain.make_move(board, time_to_think=15*100)
         print(move, brain.best_val, brain.best_move, brain.root_moves)
         board.push(move)
-        pprint.pprint(str(board))
 
     return str(chess.pgn.Game().from_board(board)).split("\n\n")[1]
 

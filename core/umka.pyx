@@ -137,12 +137,12 @@ cdef class Umka:
         if board.is_checkmate():
             score = CHECKMATE
         else:
-            if not maximize:
-                position_score = -position_score
+            # if not maximize:
+            #     position_score = -position_score
             score = material_score + position_score
             # score /= float(depth)
         # print(material_score, position_score)
-        show_board(board, material_score, position_score)
+        # show_board(board, material_score, position_score)
         return score
 
     def evaluate_bulk(self, boards, depth, maximize):
@@ -171,7 +171,7 @@ cdef class Umka:
             if maximize:
                 score = max(material_scores) + position_score.max().item()
             else:
-                score = min(material_scores) - position_score.min().item()
+                score = min(material_scores) + position_score.min().item()
             # score /= float(depth)
-        show_board(board, score, position_score)
+        show_board(board, 0, score)
         return score

@@ -88,11 +88,11 @@ class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                # if board.can_claim_draw():
-                #     value = 0
-                # else:
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, True)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, True)
                 board.pop()
                 rm.value = -value
                 bisect.insort_right(self.root_moves, rm)
@@ -106,11 +106,11 @@ class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                # if board.can_claim_draw():
-                #     value = 0
-                # else:
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, False)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, False)
                 board.pop()
                 rm.value = value
                 bisect.insort_right(self.root_moves, rm)

@@ -1531,7 +1531,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_10__backup_model(struct __pyx_obj_4c
 static PyObject *__pyx_pf_4core_4umka_4Umka_12__save_model(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_4core_4umka_4Umka_14train(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_samples, PyObject *__pyx_v_labels); /* proto */
 static PyObject *__pyx_pf_4core_4umka_4Umka_16get_move_from_opennings(CYTHON_UNUSED struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_board); /* proto */
-static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_depth, PyObject *__pyx_v_maximize); /* proto */
+static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_depth, CYTHON_UNUSED PyObject *__pyx_v_maximize); /* proto */
 static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_boards, CYTHON_UNUSED PyObject *__pyx_v_depth, PyObject *__pyx_v_maximize); /* proto */
 static PyObject *__pyx_pf_4core_4umka_4Umka_22__reduce_cython__(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_4core_4umka_4Umka_24__setstate_cython__(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
@@ -4405,7 +4405,7 @@ static PyObject *__pyx_pw_4core_4umka_4Umka_19evaluate(PyObject *__pyx_v_self, P
 static PyObject *__pyx_pw_4core_4umka_4Umka_19evaluate(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_board = 0;
   CYTHON_UNUSED PyObject *__pyx_v_depth = 0;
-  PyObject *__pyx_v_maximize = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_maximize = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evaluate (wrapper)", 0);
@@ -4472,7 +4472,7 @@ static PyObject *__pyx_pw_4core_4umka_4Umka_19evaluate(PyObject *__pyx_v_self, P
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_depth, PyObject *__pyx_v_maximize) {
+static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4umka_Umka *__pyx_v_self, PyObject *__pyx_v_board, CYTHON_UNUSED PyObject *__pyx_v_depth, CYTHON_UNUSED PyObject *__pyx_v_maximize) {
   PyObject *__pyx_v_material_score = NULL;
   PyObject *__pyx_v_sample = NULL;
   PyObject *__pyx_v_input = NULL;
@@ -4486,8 +4486,6 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4u
   PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  int __pyx_t_7;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "core/umka.pyx":127
@@ -4712,7 +4710,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4u
  *         if board.is_checkmate():
  *             score = CHECKMATE             # <<<<<<<<<<<<<<
  *         else:
- *             if not maximize:
+ *             # if not maximize:
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_CHECKMATE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -4729,46 +4727,14 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4u
     goto __pyx_L4;
   }
 
-  /* "core/umka.pyx":140
- *             score = CHECKMATE
- *         else:
- *             if not maximize:             # <<<<<<<<<<<<<<
- *                 position_score = -position_score
- *             score = material_score + position_score
- */
-  /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_maximize); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
-    __pyx_t_6 = ((!__pyx_t_4) != 0);
-    if (__pyx_t_6) {
-
-      /* "core/umka.pyx":141
- *         else:
- *             if not maximize:
- *                 position_score = -position_score             # <<<<<<<<<<<<<<
- *             score = material_score + position_score
- *             # score /= float(depth)
- */
-      __pyx_t_3 = PyNumber_Negative(__pyx_v_position_score); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF_SET(__pyx_v_position_score, __pyx_t_3);
-      __pyx_t_3 = 0;
-
-      /* "core/umka.pyx":140
- *             score = CHECKMATE
- *         else:
- *             if not maximize:             # <<<<<<<<<<<<<<
- *                 position_score = -position_score
- *             score = material_score + position_score
- */
-    }
-
-    /* "core/umka.pyx":142
- *             if not maximize:
- *                 position_score = -position_score
+  /* "core/umka.pyx":142
+ *             # if not maximize:
+ *             #     position_score = -position_score
  *             score = material_score + position_score             # <<<<<<<<<<<<<<
  *             # score /= float(depth)
  *         # print(material_score, position_score)
  */
+  /*else*/ {
     __pyx_t_3 = PyNumber_Add(__pyx_v_material_score, __pyx_v_position_score); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_score = __pyx_t_3;
@@ -4776,68 +4742,9 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_18evaluate(struct __pyx_obj_4core_4u
   }
   __pyx_L4:;
 
-  /* "core/umka.pyx":145
- *             # score /= float(depth)
- *         # print(material_score, position_score)
- *         show_board(board, material_score, position_score)             # <<<<<<<<<<<<<<
- *         return score
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_show_board); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = NULL;
-  __pyx_t_7 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-      __pyx_t_7 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_v_board, __pyx_v_material_score, __pyx_v_position_score};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_3);
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_v_board, __pyx_v_material_score, __pyx_v_position_score};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_3);
-  } else
-  #endif
-  {
-    __pyx_t_2 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    if (__pyx_t_1) {
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
-    }
-    __Pyx_INCREF(__pyx_v_board);
-    __Pyx_GIVEREF(__pyx_v_board);
-    PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_7, __pyx_v_board);
-    __Pyx_INCREF(__pyx_v_material_score);
-    __Pyx_GIVEREF(__pyx_v_material_score);
-    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_7, __pyx_v_material_score);
-    __Pyx_INCREF(__pyx_v_position_score);
-    __Pyx_GIVEREF(__pyx_v_position_score);
-    PyTuple_SET_ITEM(__pyx_t_2, 2+__pyx_t_7, __pyx_v_position_score);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
   /* "core/umka.pyx":146
  *         # print(material_score, position_score)
- *         show_board(board, material_score, position_score)
+ *         # show_board(board, material_score, position_score)
  *         return score             # <<<<<<<<<<<<<<
  * 
  *     def evaluate_bulk(self, boards, depth, maximize):
@@ -5424,7 +5331,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
  *             if maximize:
  *                 score = max(material_scores) + position_score.max().item()             # <<<<<<<<<<<<<<
  *             else:
- *                 score = min(material_scores) - position_score.min().item()
+ *                 score = min(material_scores) + position_score.min().item()
  */
       __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, __pyx_v_material_scores); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -5483,9 +5390,9 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
     /* "core/umka.pyx":174
  *                 score = max(material_scores) + position_score.max().item()
  *             else:
- *                 score = min(material_scores) - position_score.min().item()             # <<<<<<<<<<<<<<
+ *                 score = min(material_scores) + position_score.min().item()             # <<<<<<<<<<<<<<
  *             # score /= float(depth)
- *         show_board(board, score, position_score)
+ *         show_board(board, 0, score)
  */
     /*else*/ {
       __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_min, __pyx_v_material_scores); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 174, __pyx_L1_error)
@@ -5525,7 +5432,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
       if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Subtract(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5537,9 +5444,9 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
   __pyx_L9:;
 
   /* "core/umka.pyx":176
- *                 score = min(material_scores) - position_score.min().item()
+ *                 score = min(material_scores) + position_score.min().item()
  *             # score /= float(depth)
- *         show_board(board, score, position_score)             # <<<<<<<<<<<<<<
+ *         show_board(board, 0, score)             # <<<<<<<<<<<<<<
  *         return score
  */
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_show_board); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 176, __pyx_L1_error)
@@ -5559,7 +5466,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_board, __pyx_v_score, __pyx_v_position_score};
+    PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_board, __pyx_int_0, __pyx_v_score};
     __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
@@ -5567,7 +5474,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_board, __pyx_v_score, __pyx_v_position_score};
+    PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_board, __pyx_int_0, __pyx_v_score};
     __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
@@ -5582,12 +5489,12 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
     __Pyx_INCREF(__pyx_v_board);
     __Pyx_GIVEREF(__pyx_v_board);
     PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_v_board);
+    __Pyx_INCREF(__pyx_int_0);
+    __Pyx_GIVEREF(__pyx_int_0);
+    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_int_0);
     __Pyx_INCREF(__pyx_v_score);
     __Pyx_GIVEREF(__pyx_v_score);
-    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_score);
-    __Pyx_INCREF(__pyx_v_position_score);
-    __Pyx_GIVEREF(__pyx_v_position_score);
-    PyTuple_SET_ITEM(__pyx_t_1, 2+__pyx_t_11, __pyx_v_position_score);
+    PyTuple_SET_ITEM(__pyx_t_1, 2+__pyx_t_11, __pyx_v_score);
     __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5597,7 +5504,7 @@ static PyObject *__pyx_pf_4core_4umka_4Umka_20evaluate_bulk(struct __pyx_obj_4co
 
   /* "core/umka.pyx":177
  *             # score /= float(depth)
- *         show_board(board, score, position_score)
+ *         show_board(board, 0, score)
  *         return score             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);

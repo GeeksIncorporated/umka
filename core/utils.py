@@ -16,8 +16,8 @@ translation_rules = str.maketrans(pieces_ascii, pieces_unicode)
 
 PIECES = {
     ".": 0,
-    "P": 0.1, "N": 0.3, "B": 0.35, "R": 0.5, "Q": 0.9, "K": 0,
-    "p": -0.1, "n": -0.3, "b": -0.35, "r": -0.5, "q": -0.9, "k": 0
+    "P": 1, "N": 3, "B": 3.5, "R": 5, "Q": 9, "K": 0,
+    "p": -1, "n": -3, "b": -3.5, "r": -5, "q": -9, "k": 0
 }
 
 PIECES_TENSORS = {
@@ -38,12 +38,11 @@ PIECES_TENSORS = {
 
 
 def show_board(board, material_score, position_score):
-    # return
     print(str(board).translate(translation_rules))
     print("%.6s %.6s" % (int(material_score), position_score))
     print(str(chess.pgn.Game().from_board(board)).split("\n\n")[1])
     sys.stdout.flush()
-    time.sleep(10)
+    # time.sleep(1)
 
 
 def board_tensor(board):
@@ -69,9 +68,35 @@ def board_material(board):
     for square in chess.SQUARES_180:
         c = board.piece_at(square)
         if c:
-            res += PIECES[c.symbol()]
+            res += PIECES[c.symbol()] / 10
     return res
 
+# def board_tensor(board):
+#     res = []
+#     for c in str(board):
+#         if c == '\n':
+#             continue
+#         elif c == ' ':
+#             continue
+#         res += PIECES_TENSORS[c]
+#     return res
+#
+#
+# def board_material(board):
+#     """
+#     Calculates board material in centipawns.
+#     White advantage positive, black negative.
+#     :param board:
+#     :return: score in centipawns
+#     """
+#     res = 0
+#     for c in str(board):
+#         if c == '\n':
+#             continue
+#         elif c == ' ':
+#             continue
+#         res += PIECES[c] / 10
+#     return res
 
 def sample_game(game):
     board = game.board()

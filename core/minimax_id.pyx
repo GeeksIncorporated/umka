@@ -12,6 +12,7 @@ from chess.pgn import Game
 from chess.polyglot import zobrist_hash
 
 from chess import Board, Move, bbin
+from core.utils import show_board
 from settings import DEPTH, CHECKMATE
 
 INF = 10000
@@ -68,6 +69,8 @@ cdef class MiniMaxIterativeDeepening:
         if maximize:
             value = INF
             for move in board.legal_moves:
+                # if self.time_is_up():
+                #     return -INF
                 board.push(move)
                 value = min(value,
                             self._minimax(
@@ -81,6 +84,8 @@ cdef class MiniMaxIterativeDeepening:
         else:
             value = -INF
             for move in board.legal_moves:
+                # if self.time_is_up():
+                #     return INF
                 board.push(move)
                 value = max(value,
                             self._minimax(
@@ -103,37 +108,50 @@ cdef class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                # if board.can_claim_draw():
-                #     value = 0
-                # else:
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, True)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, True)
                 board.pop()
                 rm.value = -value
-                bisect.insort_right(self.root_moves, rm)
-                self.best_move = self.root_moves[0].move
-                self.best_val = self.root_moves[0].value
+                # bisect.insort_right(self.root_moves, rm)
+                # self.best_move = self.root_moves[0].move
+                # self.best_val = self.root_moves[0].value
+                self.root_moves.append(rm)
+                min_move = min(self.root_moves)
+                self.best_move = min_move.move
+                self.best_val = min_move.value
+
                 if abs(self.best_val) >= CHECKMATE:
                     break
-                # self.print_info(depth, board)
+                print("--->", self.best_move, self.best_val)
         else:
             best_val = -INF
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                # if board.can_claim_draw():
-                #     value = 0
-                # else:
-                value = self._minimax(
-                    board, depth + 1, best_val, beta, False)
+                if board.can_claim_draw():
+                    value = 0
+                else:
+                    value = self._minimax(
+                        board, depth + 1, best_val, beta, False)
                 board.pop()
                 rm.value = value
-                bisect.insort_right(self.root_moves, rm)
-                self.best_move = self.root_moves[0].move
-                self.best_val = self.root_moves[0].value
+                # bisect.insort_right(self.root_moves, rm)
+                self.root_moves.append(rm)
+                # self.best_move = self.root_moves[0].move
+                # self.best_val = self.root_moves[0].value
+                print("----", self.root_moves)
+
+                max_move = min(self.root_moves)
+                self.best_move = max_move.move
+                self.best_val = max_move.value
+
+
                 if abs(self.best_val) >= CHECKMATE:
                     break
-                # self.print_info(depth, board)
+                print("--->", self.best_move, self.best_val)
         gc.enable()
         gc.collect()
 
@@ -142,7 +160,7 @@ cdef class MiniMaxIterativeDeepening:
             return
         move_time = time.time() - self.st
         t = int(move_time) * 1000
-        print(board)
+        # show_board(board, self.best_val, 0)
         print(
             "info time= %8s depth= %8s nodes= %8s nps= %8s cp= %6s pv= %s %s %s" % (
                 t, depth, self.nodes, int(self.nodes / move_time),
@@ -160,7 +178,6 @@ cdef class MiniMaxIterativeDeepening:
         self.root_moves = [
             SortableMove(m) for m in itertools.chain(
             board.legal_moves)]
-        #print("Root move", self.root_moves)
         self.max_depth = DEPTH
         self.alphabeta_minimax(board)
         return self.best_move
