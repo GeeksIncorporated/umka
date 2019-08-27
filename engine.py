@@ -14,26 +14,27 @@ from core.umka import Umka
 class UmkaEngine(Engine):
 
     def __init__(self):
-        self.board = None
+        self.umka = None
         self.time_to_think = 1200 * 100
         self.path = os.path.join("core/models/model.pth1.tar")
+        self.board = chess.Board()
+        self.umka = Umka(
+            self.path, training_enabled=False)
 
     def on_line_received(self, l):
         # super(UmkaEngine, self).on_line_received(buf)
 
         if l == 'xboard':
+            self.xboard = True
             print('feature myname="Umka" setboard=1 done=1 sigint=0 sigterm=0')
             print('done')
 
         elif l == 'quit':
             sys.exit(0)
 
-        elif l == 'new':
-            self.board = chess.Board()
-            self.umka = Umka(
-                self.path, training_enabled=False)
-            self.brain = MiniMaxIterativeDeepening(self.umka)
-
+        elif l in ('new', 'ucinewgame'):
+            self.newgame()
+            
         elif l == 'white':
             m = self.make_move()
             self.board.push(m)
@@ -45,6 +46,14 @@ class UmkaEngine(Engine):
         elif l.startswith('time'):
             self.time_to_think = float(l.split(" ")[1]) / 500
             print(self.time_to_think)
+
+        elif l.startswith('position startpos'):
+            self.newgame()
+            self.board.set_fen(chess.STARTING_FEN)
+            if 'moves' in l:
+                moves = l.split("moves ")[1].split(' ')
+                for m in moves:
+                    self.board.push_uci(m)
 
         elif l.startswith('otim'):
             pass
@@ -68,28 +77,30 @@ class UmkaEngine(Engine):
             print("option name pstab type spin default 0 min 0 max 1024")
             print("option name matetest type check default true")
             print("option name MoveError type spin default 0 min 0 max 1024")
-            print(
-                "option name BlunderError type  spin default 0 min 0 max 1024")
-            print(
-                "option name BlunderPercent type spin default 0 min 0 max 1024")
+            print("option name BlunderError type  spin default 0 min 0 max 1024")
+            print("option name BlunderPercent type spin default 0 min 0 max 1024")
             print("uciok")
 
         elif l.startswith('post'):
             pass
-
+        elif l.startswith('isready'):
+            print("readyok")
         elif l.startswith('hard'):
             pass
         elif l.startswith('random'):
             pass
         elif l.startswith('level'):
             pass
-
         elif l.startswith('go'):
-            pass
-
+            if self.xboard:
+                return
+            if not self.umka:
+                self.newgame()
+            m = self.make_move()
+            self.board.push(m)
+            print("bestmove %s info ponder" % m)
         elif l.startswith('result'):
             pass
-
         elif l.startswith('force'):
             pass
 
@@ -109,6 +120,9 @@ class UmkaEngine(Engine):
         if not m:
             m = self.brain.make_move(self.board, time_to_think=self.time_to_think)
         return m
+
+    def newgame(self):
+        self.brain = MiniMaxIterativeDeepening(self.umka)
 
 
 def signal_handler(*args, **kwargs):
@@ -130,6 +144,10 @@ if __name__ == "__main__":
             sys.stdin.flush()
         except KeyboardInterrupt:
             print("Input 1: %s %s" % (sys.exc_info(), l))
+        except EOFError:
+            pass
+            # print("Input 3: %s %s" % (sys.exc_info(), l))
+        finally:
             try:
                 sys.stdin.flush()
                 pass
