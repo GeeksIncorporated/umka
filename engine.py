@@ -15,6 +15,7 @@ class UmkaEngine(Engine):
 
     def __init__(self):
         self.umka = None
+        self.xboard = False
         self.time_to_think = 1200 * 100
         self.path = os.path.join("core/models/model.pth1.tar")
         self.board = chess.Board()
