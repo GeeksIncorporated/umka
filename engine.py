@@ -34,7 +34,7 @@ class UmkaEngine(Engine):
 
         elif l in ('new', 'ucinewgame'):
             self.newgame()
-            
+
         elif l == 'white':
             m = self.make_move()
             self.board.push(m)
