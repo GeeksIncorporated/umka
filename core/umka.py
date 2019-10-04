@@ -116,7 +116,7 @@ class Umka:
                 return None
 
     def evaluate(self, board, depth, maximize):
-        material_score = 0 #10 * board_material(board)
+        material_score = 10 * board_material(board)
 
         if AI_ENABLED:
             sample = board_tensor(board=board)

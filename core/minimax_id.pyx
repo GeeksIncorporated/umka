@@ -1,6 +1,4 @@
 # cython: language_level=3
-
-import bisect
 import gc
 import itertools
 import sys
@@ -11,8 +9,7 @@ from chess.pgn import Game
 
 from chess.polyglot import zobrist_hash
 
-from chess import Board, Move, bbin
-from core.utils import show_board
+from chess import Move
 from settings import DEPTH, CHECKMATE
 
 INF = 10000

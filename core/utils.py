@@ -1,9 +1,9 @@
 import csv
-import time
 
 import os
 import re
 import sys
+import time
 
 import chess
 from chess.pgn import read_game
@@ -47,7 +47,6 @@ def show_board(board, material_score, position_score):
 
 def board_tensor(board):
     res = []
-
     for square in chess.SQUARES_180:
         c = board.piece_at(square)
         if c:
@@ -71,32 +70,6 @@ def board_material(board):
             res += PIECES[c.symbol()] / 10
     return res
 
-# def board_tensor(board):
-#     res = []
-#     for c in str(board):
-#         if c == '\n':
-#             continue
-#         elif c == ' ':
-#             continue
-#         res += PIECES_TENSORS[c]
-#     return res
-#
-#
-# def board_material(board):
-#     """
-#     Calculates board material in centipawns.
-#     White advantage positive, black negative.
-#     :param board:
-#     :return: score in centipawns
-#     """
-#     res = 0
-#     for c in str(board):
-#         if c == '\n':
-#             continue
-#         elif c == ' ':
-#             continue
-#         res += PIECES[c] / 10
-#     return res
 
 def sample_game(game):
     board = game.board()
