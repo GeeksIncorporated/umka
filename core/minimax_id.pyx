@@ -66,8 +66,6 @@ cdef class MiniMaxIterativeDeepening:
         if maximize:
             value = INF
             for move in board.legal_moves:
-                # if self.time_is_up():
-                #     return -INF
                 board.push(move)
                 value = min(value,
                             self._minimax(
@@ -81,8 +79,6 @@ cdef class MiniMaxIterativeDeepening:
         else:
             value = -INF
             for move in board.legal_moves:
-                # if self.time_is_up():
-                #     return INF
                 board.push(move)
                 value = max(value,
                             self._minimax(
@@ -105,11 +101,8 @@ cdef class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                if board.can_claim_draw():
-                    value = 0
-                else:
-                    value = self._minimax(
-                        board, depth + 1, best_val, beta, True)
+                value = self._minimax(
+                    board, depth + 1, best_val, beta, True)
                 board.pop()
                 rm.value = -value
                 # bisect.insort_right(self.root_moves, rm)
@@ -128,11 +121,8 @@ cdef class MiniMaxIterativeDeepening:
             for rm in list(self.root_moves):
                 self.root_moves.remove(rm)
                 board.push(rm.move)
-                if board.can_claim_draw():
-                    value = 0
-                else:
-                    value = self._minimax(
-                        board, depth + 1, best_val, beta, False)
+                value = self._minimax(
+                    board, depth + 1, best_val, beta, False)
                 board.pop()
                 rm.value = value
                 # bisect.insort_right(self.root_moves, rm)
@@ -175,8 +165,18 @@ cdef class MiniMaxIterativeDeepening:
         self.root_moves = [
             SortableMove(m) for m in itertools.chain(
             board.legal_moves)]
-        self.max_depth = DEPTH
-        self.alphabeta_minimax(board)
+
+        d = 1
+        self.st = time.time()
+
+        while d <= DEPTH and not self.time_is_up():
+            self.max_depth = d
+            self.alphabeta_minimax(board)
+            d += 1
+            print("---------------------->", self.best_move)
+            if abs(self.best_val) >= CHECKMATE:
+                break
+
         return self.best_move
 
 
