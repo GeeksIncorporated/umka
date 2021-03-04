@@ -1,0 +1,16 @@
+locale = en_US.UTF-8
+recognized 'normal' (-1) as variant normal
+recognized 'normal' (-1) as variant normal
+recognized 'normal' (-1) as variant normal
+shuffleOpenings = 0
+shuffleOpenings = 0
+Version: xboard 4.8.0 + python ()
+Reset(1, 0) from gameMode 0
+recognized 'normal' (-1) as variant normal
+GameEnds(0, (null), 2)
+shuffleOpenings = 0
+StartChildProcess (dir=".") /home/alexeyv/workspace/umka/venv/bin/python engine.pyx
+119 >first : xboard
+protover 2
+150 <first : /home/alexeyv/workspace/umka/venv/bin/python: can't open file 'engine.pyx': [Errno 2] No such file or directory
+GameEnds(29, xboard exit, 2)
