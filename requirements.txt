@@ -1,4 +1,4 @@
-torch==0.4.1
+torch==1.13.1
 torchvision==0.2.1
 matplotlib==3.0.2
 python-chess==0.23.10
